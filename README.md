@@ -80,6 +80,37 @@ $models = MyModel::withUuid([
 ])->get();
 ```
 
+### Creating
+
+The UUID of a model will automatically be generated upon save.
+
+```php
+$model = MyModel::create();
+
+dump($model->uuid); // b"\x11þ╩ÓB#(ªë\x1FîàÉ\x1EÝ." 
+```
+
+### Human-readable UUID
+
+UUIDs are only stored as binary in the database. You can however use a textual version for eg. URL generation.
+
+```php
+$model = MyModel::create();
+
+dump($model->uuid_text); // "6dae40fa-cae0-11e7-80b6-8c85901eed2e" 
+```
+
+If you want to set a specific UUID before creating a model, that's also possible.
+It's unlikely though that you'd ever want to do this.
+
+```php
+$model = new MyModel();
+
+$model->uuid_text = $uuid;
+
+$model->save();
+```
+
 ### Testing
 
 ``` bash
