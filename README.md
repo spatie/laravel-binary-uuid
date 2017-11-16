@@ -6,7 +6,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-binary-uuid.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-binary-uuid)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+This package adds support for optimised binary encoded UUIDs in a MySQL database.
 
 ## Installation
 
@@ -18,9 +18,66 @@ composer require spatie/laravel-binary-uuid
 
 ## Usage
 
-``` php
-$skeleton = new Spatie\Skeleton();
-echo $skeleton->echoPhrase('Hello, Spatie!');
+Optimised UUIDs are stored as a binary encoded string in the database. 
+Besides storing them as binary, some bits are also switched, allowing MySQL to better index them. 
+You can read more about this storing mechanism here: [http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/](http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/).
+ 
+To let a model make use of these optimised UUIDs, you must add a `uuid` field as the primary field in the table.
+
+```php
+Schema::create('table_name', function (Blueprint $table) {
+    $table->uuid('uuid');
+    $table->primary('uuid');
+});
+```
+
+Note that the name of the field can be chosen.
+
+In the model, you can use the `HasBinaryUuid` trait which will add the required functionality to support the binary conversion of the UUID.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Uuid\HasBinaryUuid;
+
+class TestModel extends Model
+{
+    use HasBinaryUuid;
+
+    public $incrementing = false;
+    protected $primaryKey = 'uuid';
+}
+```
+
+Please note a few things:
+
+- `$incrementing` must be `false` in order for the UUID to work as your primary key.
+- If you're using any other name than `id` for the uuid, you must specify it in `$primaryKey`.
+
+### Querying the model
+
+The most optimal way to query the database is with the binary encoded version of a UUID. 
+There's a scope included in the `HasBinaryUuid` trait to do exactly this.
+
+```php
+$uuid = 'ff8683dc-cadd-11e7-9547-8c85901eed2e'; // UUID from eg. the URL.
+
+$model = MyModel::withUuid($uuid)->first();
+``` 
+
+The `withUuid` scope will automatically encode the UUID string to query the database.
+The manual approach would be something like this.
+
+```php
+$model = MyModel::where('uuid', MyModel::encodeUuid($uuid))->first();
+```
+
+You can also query for multiple UUIDs using the `withUuid` scope.
+
+```php
+$models = MyModel::withUuid([
+    'ff8683dc-cadd-11e7-9547-8c85901eed2e',
+    'ff8683ab-cadd-11e7-9547-8c85900eed2t',
+])->get();
 ```
 
 ### Testing
