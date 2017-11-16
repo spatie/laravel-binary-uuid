@@ -30,16 +30,6 @@ trait HasBinaryUuid
         return $builder->where('uuid', static::encodeUuid($uuid));
     }
 
-    public function getUuidTextAttribute(): string
-    {
-        return static::decodeUuid($this->{$this->getKeyName()});
-    }
-
-    public function setUuidTextAttribute(string $uuid)
-    {
-        $this->{$this->getKeyName()} = static::encodeUuid($uuid);
-    }
-
     public static function encodeUuid(string $uuid): string
     {
         $uuid = str_replace('-', '', (string) $uuid);
@@ -65,5 +55,15 @@ trait HasBinaryUuid
         });
 
         return $uuid;
+    }
+
+    public function getUuidTextAttribute(): string
+    {
+        return static::decodeUuid($this->{$this->getKeyName()});
+    }
+
+    public function setUuidTextAttribute(string $uuid)
+    {
+        $this->{$this->getKeyName()} = static::encodeUuid($uuid);
     }
 }
