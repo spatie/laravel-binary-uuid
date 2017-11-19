@@ -3,9 +3,9 @@
 namespace Spatie\Uuid\Test\Unit;
 
 use Ramsey\Uuid\Uuid;
-use Spatie\Uuid\Test\CreateTestTable;
 use Spatie\Uuid\Test\TestCase;
 use Spatie\Uuid\Test\TestModel;
+use Spatie\Uuid\Test\CreateTestTable;
 
 class HasBinaryUuidTest extends TestCase
 {

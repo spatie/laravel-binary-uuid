@@ -2,9 +2,9 @@
 
 namespace Spatie\Uuid;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 trait HasBinaryUuid
 {
@@ -22,7 +22,7 @@ trait HasBinaryUuid
     public static function scopeWithUuid(Builder $builder, $uuid): Builder
     {
         if (is_array($uuid)) {
-            return $builder->whereIn('uuid', array_map(function(string $modelUuid) {
+            return $builder->whereIn('uuid', array_map(function (string $modelUuid) {
                 return static::encodeUuid($modelUuid);
             }, $uuid));
         }
@@ -36,18 +36,18 @@ trait HasBinaryUuid
 
         return
             substr(hex2bin($uuid), 6, 2)
-            . substr(hex2bin($uuid), 4, 2)
-            . substr(hex2bin($uuid), 0, 4)
-            . substr(hex2bin($uuid), 8, 8);
+            .substr(hex2bin($uuid), 4, 2)
+            .substr(hex2bin($uuid), 0, 4)
+            .substr(hex2bin($uuid), 8, 8);
     }
 
     public static function decodeUuid(string $binary): string
     {
         $uuid = bin2hex(
             substr($binary, 4, 4)
-            . substr($binary, 2, 2)
-            . substr($binary, 0, 2)
-            . substr($binary, 8, 8)
+            .substr($binary, 2, 2)
+            .substr($binary, 0, 2)
+            .substr($binary, 8, 8)
         );
 
         collect([8, 13, 18, 23])->each(function ($position) use (&$uuid) {

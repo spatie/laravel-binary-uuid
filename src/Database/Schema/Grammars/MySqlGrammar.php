@@ -2,8 +2,8 @@
 
 namespace Spatie\Uuid\Database\Schema\Grammars;
 
-use Illuminate\Database\Schema\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 use Illuminate\Support\Fluent;
+use Illuminate\Database\Schema\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 
 class MySqlGrammar extends IlluminateMySqlGrammar
 {
