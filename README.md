@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
 [![Build Status](https://img.shields.io/travis/spatie/laravel-binary-uuid/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-binary-uuid)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/xxxxxxxxx.svg?style=flat-square)](https://insight.sensiolabs.com/projects/xxxxxxxxx)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/39e435d7-88b4-49ea-9822-ba4c68233a30.svg?style=flat-square)](https://insight.sensiolabs.com/projects/39e435d7-88b4-49ea-9822-ba4c68233a30)
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-binary-uuid.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-binary-uuid)
 [![StyleCI](https://styleci.io/repos/110949385/shield?branch=master)](https://styleci.io/repos/110949385)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
