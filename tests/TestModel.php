@@ -2,8 +2,8 @@
 
 namespace Spatie\Uuid\Test;
 
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Uuid\HasBinaryUuid;
+use Illuminate\Database\Eloquent\Model;
 
 class TestModel extends Model
 {

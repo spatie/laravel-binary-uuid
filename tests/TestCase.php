@@ -2,8 +2,8 @@
 
 namespace Spatie\Uuid\Test;
 
-use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Uuid\UuidServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
