@@ -3,7 +3,7 @@
 namespace Spatie\Uuid;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\Uuid\Database\Schema\Grammars\MySqlGrammar;
+use Spatie\Uuid\MySqlGrammar;
 
 class UuidServiceProvider extends ServiceProvider
 {
