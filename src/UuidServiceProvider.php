@@ -3,7 +3,6 @@
 namespace Spatie\BinaryUuid;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\BinaryUuid\MySqlGrammar;
 
 class UuidServiceProvider extends ServiceProvider
 {
