@@ -13,9 +13,4 @@ class UuidServiceProvider extends ServiceProvider
 
         $connection->setSchemaGrammar(new MySqlGrammar());
     }
-
-    public function register()
-    {
-        //
-    }
 }
