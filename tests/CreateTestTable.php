@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Uuid\Test;
+namespace Spatie\BinaryUuid\Test;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;

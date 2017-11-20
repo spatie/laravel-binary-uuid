@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Uuid;
+namespace Spatie\BinaryUuid;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\Uuid\MySqlGrammar;
+use Spatie\BinaryUuid\MySqlGrammar;
 
 class UuidServiceProvider extends ServiceProvider
 {

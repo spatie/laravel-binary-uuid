@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Uuid\Test;
+namespace Spatie\BinaryUuid\Test;
 
-use Spatie\Uuid\UuidServiceProvider;
+use Spatie\BinaryUuid\UuidServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra

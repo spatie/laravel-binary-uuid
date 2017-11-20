@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Uuid;
+namespace Spatie\BinaryUuid;
 
 use Illuminate\Support\Fluent;
 use Illuminate\Database\Schema\Grammars\MySqlGrammar as IlluminateMySqlGrammar;

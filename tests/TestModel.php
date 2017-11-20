@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Uuid\Test;
+namespace Spatie\BinaryUuid\Test;
 
-use Spatie\Uuid\HasBinaryUuid;
+use Spatie\BinaryUuid\HasBinaryUuid;
 use Illuminate\Database\Eloquent\Model;
 
 class TestModel extends Model

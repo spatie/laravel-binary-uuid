@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Uuid\\": "src"
+            "Spatie\\BinaryUuid\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Uuid\\Test\\": "tests"
+            "Spatie\\BinaryUuid\\Test\\": "tests"
         }
     },
     "scripts": {

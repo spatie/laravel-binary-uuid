@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Uuid\Test\Unit;
+namespace Spatie\BinaryUuid\Test\Unit;
 
 use Ramsey\Uuid\Uuid;
-use Spatie\Uuid\Test\TestCase;
-use Spatie\Uuid\Test\TestModel;
-use Spatie\Uuid\Test\CreateTestTable;
+use Spatie\BinaryUuid\Test\TestCase;
+use Spatie\BinaryUuid\Test\TestModel;
+use Spatie\BinaryUuid\Test\CreateTestTable;
 
 class HasBinaryUuidTest extends TestCase
 {

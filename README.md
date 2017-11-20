@@ -38,7 +38,7 @@ In the model, you can use the `HasBinaryUuid` trait which will add the required 
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Uuid\HasBinaryUuid;
+use Spatie\BinaryUuid\HasBinaryUuid;
 
 class TestModel extends Model
 {
