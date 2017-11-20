@@ -41,20 +41,20 @@ trait HasBinaryUuid
             .substr(hex2bin($uuid), 8, 8);
     }
 
-    public static function decodeUuid(string $binary): string
+    public static function decodeUuid(string $binaryUuid): string
     {
-        $uuid = bin2hex(
-            substr($binary, 4, 4)
-            .substr($binary, 2, 2)
-            .substr($binary, 0, 2)
-            .substr($binary, 8, 8)
+        $uuidWithoutDashes = bin2hex(
+            substr($binaryUuid, 4, 4)
+            .substr($binaryUuid, 2, 2)
+            .substr($binaryUuid, 0, 2)
+            .substr($binaryUuid, 8, 8)
         );
 
-        collect([8, 13, 18, 23])->each(function ($position) use (&$uuid) {
-            $uuid = substr_replace($uuid, '-', $position, 0);
-        });
+        $uuidWithDashes = collect([8, 13, 18, 23])->reduce(function ($uuid, $position) {
+            return substr_replace($uuid, '-', $position, 0);
+        }, $uuidWithoutDashes);
 
-        return $uuid;
+        return $uuidWithDashes;
     }
 
     public function getUuidTextAttribute(): string
