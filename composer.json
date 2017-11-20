@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.0",
         "illuminate/database": "^5.5",
         "illuminate/support": "^5.5",
         "ramsey/uuid": "^3.7"
