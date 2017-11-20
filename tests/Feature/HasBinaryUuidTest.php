@@ -14,6 +14,8 @@ class HasBinaryUuidTest extends TestCase
     {
         $model = new TestModel();
 
+        $this->assertNull($model->uuid);
+
         $model->save();
 
         $this->assertNotNull($model->uuid);
