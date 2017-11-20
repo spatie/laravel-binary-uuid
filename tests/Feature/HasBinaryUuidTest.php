@@ -9,20 +9,6 @@ use Spatie\BinaryUuid\Test\CreateTestTable;
 
 class HasBinaryUuidTest extends TestCase
 {
-    protected function setUp()
-    {
-        parent::setUp();
-
-        (new CreateTestTable('test'))->up();
-    }
-
-    protected function tearDown()
-    {
-        (new CreateTestTable('test'))->down();
-
-        parent::tearDown();
-    }
-
     /** @test */
     public function it_generates_the_uuid_on_save()
     {

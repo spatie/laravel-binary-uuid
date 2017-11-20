@@ -2,6 +2,8 @@
 
 namespace Spatie\BinaryUuid\Test;
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Spatie\BinaryUuid\UuidServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -10,6 +12,8 @@ class TestCase extends Orchestra
     protected function setUp()
     {
         parent::setUp();
+
+        $this->setUpDatabase();
     }
 
     protected function getPackageProviders($app): array
@@ -27,5 +31,16 @@ class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix' => '',
         ]);
+    }
+
+    protected function setUpDatabase()
+    {
+        Schema::dropIfExists('test');
+
+        Schema::create('test', function (Blueprint $table) {
+            $table->uuid('uuid');
+
+            $table->timestamps();
+        });
     }
 }
