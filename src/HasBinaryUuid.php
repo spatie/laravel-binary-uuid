@@ -66,4 +66,14 @@ trait HasBinaryUuid
     {
         $this->{$this->getKeyName()} = static::encodeUuid($uuid);
     }
+
+    public function getQueueableId()
+    {
+        return base64_encode($this->{$this->getKeyName()});
+    }
+
+    public function newQueryForRestoration($id)
+    {
+        return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+    }
 }
