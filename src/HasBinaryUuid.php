@@ -19,15 +19,34 @@ trait HasBinaryUuid
         });
     }
 
-    public static function scopeWithUuid(Builder $builder, $uuid): Builder
+    public static function scopeWithUuid(Builder $builder, $uuid, ?string $field = null): Builder
     {
-        if (is_array($uuid)) {
-            return $builder->whereKey(array_map(function (string $modelUuid) {
-                return static::encodeUuid($modelUuid);
-            }, $uuid));
+        if ($field) {
+            return static::scopeWithUuidRelation($builder, $uuid, $field);
         }
 
-        return $builder->whereKey(static::encodeUuid($uuid));
+        if ($uuid instanceof Uuid) {
+            $uuid = (string) $uuid;
+        }
+
+        $uuid = (array) $uuid;
+
+        return $builder->whereKey(array_map(function (string $modelUuid) {
+            return static::encodeUuid($modelUuid);
+        }, $uuid));
+    }
+
+    public static function scopeWithUuidRelation(Builder $builder, $uuid, string $field): Builder
+    {
+        if ($uuid instanceof Uuid) {
+            $uuid = (string) $uuid;
+        }
+
+        $uuid = (array) $uuid;
+
+        return $builder->whereIn($field, array_map(function (string $modelUuid) {
+            return static::encodeUuid($modelUuid);
+        }, $uuid));
     }
 
     public static function encodeUuid(string $uuid): string

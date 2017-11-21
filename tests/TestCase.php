@@ -39,6 +39,7 @@ class TestCase extends Orchestra
 
         Schema::create('test', function (Blueprint $table) {
             $table->uuid('uuid');
+            $table->uuid('relation_uuid')->nullable();
 
             $table->timestamps();
         });

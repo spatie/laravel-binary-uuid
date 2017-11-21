@@ -66,6 +66,19 @@ class HasBinaryUuidTest extends TestCase
     }
 
     /** @test */
+    public function it_can_query_a_relation_with_scope()
+    {
+        $uuid = Uuid::uuid1();
+        $relationUuid = Uuid::uuid1();
+
+        $this->createModel($uuid, $relationUuid);
+
+        $model = TestModel::withUuid($relationUuid, 'relation_uuid')->first();
+
+        $this->assertNotNull($model);
+    }
+
+    /** @test */
     public function it_prevents_double_decoding()
     {
         $uuid = Uuid::uuid1();
@@ -87,11 +100,15 @@ class HasBinaryUuidTest extends TestCase
         $this->assertEquals($encodeUuid, $decodedUuid);
     }
 
-    private function createModel(string $uuid): TestModel
+    private function createModel(string $uuid, ?string $relationUuid = null): TestModel
     {
         $model = new TestModel();
 
         $model->uuid_text = $uuid;
+
+        if ($relationUuid) {
+            $model->relation_uuid = TestModel::encodeUuid($relationUuid);
+        }
 
         $model->save();
 
