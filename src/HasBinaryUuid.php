@@ -22,12 +22,12 @@ trait HasBinaryUuid
     public static function scopeWithUuid(Builder $builder, $uuid): Builder
     {
         if (is_array($uuid)) {
-            return $builder->whereIn('uuid', array_map(function (string $modelUuid) {
+            return $builder->whereKey(array_map(function (string $modelUuid) {
                 return static::encodeUuid($modelUuid);
             }, $uuid));
         }
 
-        return $builder->where('uuid', static::encodeUuid($uuid));
+        return $builder->whereKey(static::encodeUuid($uuid));
     }
 
     public static function encodeUuid(string $uuid): string
