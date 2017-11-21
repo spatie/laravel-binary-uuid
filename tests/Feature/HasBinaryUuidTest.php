@@ -65,6 +65,28 @@ class HasBinaryUuidTest extends TestCase
         $this->assertEquals((string) $uuid2, $models[1]->uuid_text);
     }
 
+    /** @test */
+    public function it_prevents_double_decoding()
+    {
+        $uuid = Uuid::uuid1();
+
+        $decodedUuid = TestModel::decodeUuid($uuid);
+
+        $this->assertEquals($uuid, $decodedUuid);
+    }
+
+    /** @test */
+    public function it_prevents_double_encoding()
+    {
+        $uuid = Uuid::uuid1();
+
+        $encodeUuid = TestModel::encodeUuid($uuid);
+
+        $decodedUuid = TestModel::encodeUuid($encodeUuid);
+
+        $this->assertEquals($encodeUuid, $decodedUuid);
+    }
+
     private function createModel(string $uuid): TestModel
     {
         $model = new TestModel();

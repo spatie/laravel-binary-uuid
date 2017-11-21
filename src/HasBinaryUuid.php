@@ -32,6 +32,10 @@ trait HasBinaryUuid
 
     public static function encodeUuid(string $uuid): string
     {
+        if (!Uuid::isValid($uuid)) {
+            return $uuid;
+        }
+
         $uuid = str_replace('-', '', (string) $uuid);
 
         return
@@ -43,6 +47,10 @@ trait HasBinaryUuid
 
     public static function decodeUuid(string $binaryUuid): string
     {
+        if (Uuid::isValid($binaryUuid)) {
+            return $binaryUuid;
+        }
+
         $uuidWithoutDashes = bin2hex(
             substr($binaryUuid, 4, 4)
             .substr($binaryUuid, 2, 2)
