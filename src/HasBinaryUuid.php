@@ -32,7 +32,7 @@ trait HasBinaryUuid
 
     public static function encodeUuid(string $uuid): string
     {
-        if (!Uuid::isValid($uuid)) {
+        if (! Uuid::isValid($uuid)) {
             return $uuid;
         }
 
