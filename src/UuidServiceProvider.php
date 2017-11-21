@@ -4,8 +4,8 @@ namespace Spatie\BinaryUuid;
 
 use Exception;
 use Illuminate\Database\Connection;
-use Illuminate\Database\Schema\Grammars\Grammar;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Schema\Grammars\Grammar;
 use Illuminate\Database\Query\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 use Illuminate\Database\Query\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar;
 
@@ -23,7 +23,7 @@ class UuidServiceProvider extends ServiceProvider
     {
         $queryGrammar = $connection->getQueryGrammar();
 
-        if (!in_array(
+        if (! in_array(
             get_class($queryGrammar),
             [IlluminateMySqlGrammar::class, IlluminateSQLiteGrammar::class]
         )) {
