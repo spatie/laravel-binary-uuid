@@ -81,6 +81,19 @@ $models = MyModel::withUuid([
 ])->get();
 ```
 
+#### Querying relations
+
+You can also use the `withUuid` scope to query relation fields by specifying a field to query.
+
+```php
+$models = MyModel::withUuid('ff8683dc-cadd-11e7-9547-8c85901eed2e', 'relation_field')->get();
+
+$models = MyModel::withUuid([
+    'ff8683dc-cadd-11e7-9547-8c85901eed2e',
+    'ff8683ab-cadd-11e7-9547-8c85900eed2t',
+], 'relation_field')->get();
+```
+
 ### Creating
 
 The UUID of a model will automatically be generated upon save.
