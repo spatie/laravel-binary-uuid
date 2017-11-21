@@ -45,7 +45,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\Uuid\\UuidServiceProvider"
+                "Spatie\\BinaryUuid\\UuidServiceProvider"
             ]
         }
     }
