@@ -14,7 +14,7 @@ class OptimisedUuid extends AbstractBenchmark
 
     public function table()
     {
-        $this->connection->exec(<<<SQL
+        $this->connection->exec(<<<'SQL'
 DROP TABLE IF EXISTS `optimised_uuid`;
 
 CREATE TABLE `optimised_uuid` (

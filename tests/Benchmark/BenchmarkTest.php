@@ -2,9 +2,9 @@
 
 namespace Spatie\BinaryUuid\Test\Benchmark;
 
+use PHPUnit\Framework\TestCase;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use PHPUnit\Framework\TestCase;
 
 class BenchmarkTest extends TestCase
 {

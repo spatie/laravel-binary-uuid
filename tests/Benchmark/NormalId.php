@@ -13,7 +13,7 @@ class NormalId extends AbstractBenchmark
 
     public function table()
     {
-        $this->connection->exec(<<<SQL
+        $this->connection->exec(<<<'SQL'
 DROP TABLE IF EXISTS `normal_id`;
 
 CREATE TABLE `normal_id` (
