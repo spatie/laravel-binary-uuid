@@ -7,7 +7,7 @@
 [![StyleCI](https://styleci.io/repos/110949385/shield?branch=master)](https://styleci.io/repos/110949385)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
 
-This package adds support for optimised binary encoded UUIDs in a MySQL database.
+This package adds support for optimised binary encoded UUIDs in a MySQL or SQLite database.
 
 ## Installation
 
