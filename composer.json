@@ -19,6 +19,7 @@
         "php": "^7.0",
         "illuminate/database": "^5.5",
         "illuminate/support": "^5.5",
+        "laravel/framework": "^5.5.22",
         "ramsey/uuid": "^3.7"
     },
     "require-dev": {
