@@ -130,6 +130,7 @@ $model->save();
 Before making this module, we ran some benchmarks to determine whether it was worth the effort to work with optimised binary UUIDs.
 These benchmarks are included in this repository and can be run with PHPUnit.
 By default, PHPUnit won't execute them. Note that running the benchmarks can take several minutes!
+You'll also need a MySQL database setup. Check the environment configuration in `phpunit.xml.dist` for more information. 
 
 ```
 phpunit -d memory_limit=-1 --testsuite=benchmarks
