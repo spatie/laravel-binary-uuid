@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="vendor/autoload.php"
+         defaultTestSuite="tests"
          backupGlobals="false"
          backupStaticAttributes="false"
          colors="true"
@@ -10,8 +11,12 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Spatie Test Suite">
+        <testsuite name="tests">
             <directory>tests</directory>
+            <exclude>tests/Benchmark</exclude>
+        </testsuite>
+        <testsuite name="benchmarks">
+            <directory>tests/Benchmark</directory>
         </testsuite>
     </testsuites>
     <filter>
@@ -26,4 +31,14 @@
         <log type="coverage-text" target="build/coverage.txt"/>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
+    <php>
+        <env name="DB_NAME" value="uuid_performance"/>
+        <env name="DB_USER" value="root"/>
+        <env name="DB_PASSWORD" value="root"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="FLUSH_QUERY_AMOUNT" value="5000"/>
+        <env name="RECORDS_IN_TABLE" value="500000"/>
+        <env name="BENCHMARK_ROUNDS" value="1000"/>
+        <env name="BENCHMARK_ROUNDS_TEXTUAL_UUID" value="100"/>
+    </php>
 </phpunit>

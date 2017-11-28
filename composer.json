@@ -23,6 +23,7 @@
         "ramsey/uuid": "^3.7"
     },
     "require-dev": {
+        "doctrine/dbal": "^2.6",
         "orchestra/database": "^3.5",
         "orchestra/testbench": "^3.5",
         "phpunit/phpunit": "^6.0"
