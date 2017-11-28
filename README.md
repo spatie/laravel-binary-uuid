@@ -17,35 +17,6 @@ You can install the package via composer:
 composer require spatie/laravel-binary-uuid
 ```
 
-## Benchmarks
-
-Before make this module, we ran some benchmarks to determine whether it was worth the effort to work with optimised binary UUIDs.
-These benchmarks are included in this repository and can be run with PHPUnit.
-By default, PHPUnit won't execute them. Note that running the benchmarks can take several minutes!
-
-```
-phpunit -d memory_limit=-1 --testsuite=benchmarks
-```
-
-These benchmarks will compare several ways of saving and querying data with IDs and UUIDs.
-Average results are outputted in the terminal, while all individual query stats are saved in CSV files in the test folder.
-
-You may use this data to further investigate the performance of UUIDs in your local machine.
-We provided some charts based on benchmarks run by us. 
-
-*Querying with normal IDs is the fastest.*
-
-![Querying with normal IDs is the fastest](./github/normal_id.png "Querying with normal IDs")
-
-*Textual UUIDs by themselves are slow, and don't scale with bigger data sets.*
-
-![Textual UUIDs don't scale](./github/textual_uuid.png "Querying with textual UUIDs")
-
-*The solution provided by this package allows for much better UUID lookups because they are binary encoded and optimised. 
-This allows MySQL to better index them.*
-
-![Optimised binary UUIDs are much beter](./github/optimised_binary_uuid.png "Querying with binary optimised IDs")
-
 ## Usage
 
 Optimised UUIDs are stored as a binary encoded string in the database. 
@@ -153,6 +124,36 @@ $model->uuid_text = $uuid;
 
 $model->save();
 ```
+
+### Benchmarks
+
+Before make this module, we ran some benchmarks to determine whether it was worth the effort to work with optimised binary UUIDs.
+These benchmarks are included in this repository and can be run with PHPUnit.
+By default, PHPUnit won't execute them. Note that running the benchmarks can take several minutes!
+
+```
+phpunit -d memory_limit=-1 --testsuite=benchmarks
+```
+
+These benchmarks will compare several ways of saving and querying data with IDs and UUIDs.
+Average results are outputted in the terminal, while all individual query stats are saved in CSV files in the test folder.
+
+You may use this data to further investigate the performance of UUIDs in your local machine.
+We provided some charts based on benchmarks run by us. 
+
+*Querying with normal IDs is the fastest.*
+
+![Querying with normal IDs is the fastest](./github/normal_id.png "Querying with normal IDs")
+
+*Textual UUIDs by themselves are slow, and don't scale with bigger data sets.*
+
+![Textual UUIDs don't scale](./github/textual_uuid.png "Querying with textual UUIDs")
+
+*The solution provided by this package allows for much better UUID lookups because they are binary encoded and optimised. 
+This allows MySQL to better index them.*
+
+![Optimised binary UUIDs are much beter](./github/optimised_binary_uuid.png "Querying with binary optimised IDs")
+
 
 ### Testing
 
