@@ -2,9 +2,9 @@
 
 namespace Spatie\BinaryUuid\Test\Benchmark;
 
+use Faker\Factory;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Logging\DebugStack;
-use Faker\Factory;
 use Spatie\BinaryUuid\Test\Benchmark\Result\FileResult;
 use Spatie\BinaryUuid\Test\Benchmark\Result\InlineResult;
 
@@ -72,21 +72,21 @@ abstract class AbstractBenchmark
         return new InlineResult($this);
     }
 
-    public function withRecordsInTable(int $recordsInTable): AbstractBenchmark
+    public function withRecordsInTable(int $recordsInTable): self
     {
         $this->recordsInTable = $recordsInTable;
 
         return $this;
     }
 
-    public function withFlushAmount(int $flushAmount): AbstractBenchmark
+    public function withFlushAmount(int $flushAmount): self
     {
         $this->flushAmount = $flushAmount;
 
         return $this;
     }
 
-    public function withBenchmarkRounds(int $benchmarkRounds): AbstractBenchmark
+    public function withBenchmarkRounds(int $benchmarkRounds): self
     {
         $this->benchmarkRounds = $benchmarkRounds;
 
