@@ -7,12 +7,13 @@
 [![StyleCI](https://styleci.io/repos/110949385/shield?branch=master)](https://styleci.io/repos/110949385)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
 
-There are some use case where you want to use uuids as a primary key in your database. Unfortunately using a regular uuid as a primary keep is guaranteed to be slow.
+Using a regular uuid as a primary key is guaranteed to be slow.
 
 This package solves the performance problem by storing slightly tweaked binary versions of the uuid. You can read more about this storing mechanism here: [http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/](http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/).
 
-Want to test the perfomance improvements on your system? No problem, we've included [benchmarks](#running-the-benchmarks).
+The package can generate optimized versions of the uuid. It also provides handy model scopes to easily retrieve models that use binary uuids.
 
+Want to test the perfomance improvements on your system? No problem, we've included [benchmarks](#running-the-benchmarks).
 
 The package currently only supports MySQL and SQLite.
 
