@@ -171,6 +171,9 @@ This allows MySQL to better index them.*
 
 ![Optimised binary UUIDs are much beter](https://spatie.github.io/laravel-binary-uuid/optimised_binary_uuid.png "Querying with binary optimised IDs")
 
+*A comparison of the normal ID, binary UUID and optimised UUID approach,*
+
+![Comparing different methods](https://spatie.github.io/laravel-binary-uuid/comparison.png "Comparing different methods")
 
 ## Testing
 
