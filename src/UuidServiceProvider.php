@@ -44,7 +44,7 @@ class UuidServiceProvider extends ServiceProvider
         return new MySqlGrammar();
     }
 
-    protected function optimizeUuids(): void
+    protected function optimizeUuids()
     {
         $factory = new UuidFactory();
 
