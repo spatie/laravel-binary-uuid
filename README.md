@@ -54,6 +54,22 @@ Please note a few things:
 - `$incrementing` must be `false` in order for the UUID to work as your primary key.
 - If you're using any other name than `id` for the uuid, you must specify it in `$primaryKey`.
 
+If you're using this package with its default configuration: a field named `uuid` as the primary key,
+you can use the `HasDefaultUuidFields` trait so you don't have to manually override these fields.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\BinaryUuid\HasBinaryUuid;
+use Spatie\BinaryUuid\HasDefaultUuidFields;
+
+class TestModel extends Model
+{
+    use HasBinaryUuid;
+    use HasDefaultUuidFields;
+}
+```
+ 
+
 ### Querying the model
 
 The most optimal way to query the database is with the binary encoded version of a UUID. 
