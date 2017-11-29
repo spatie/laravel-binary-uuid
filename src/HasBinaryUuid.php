@@ -19,7 +19,7 @@ trait HasBinaryUuid
         });
     }
 
-    public static function scopeWithUuid(Builder $builder, $uuid, ?string $field = null): Builder
+    public static function scopeWithUuid(Builder $builder, $uuid, $field = null): Builder
     {
         if ($field) {
             return static::scopeWithUuidRelation($builder, $uuid, $field);

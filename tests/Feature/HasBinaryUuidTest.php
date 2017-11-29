@@ -120,7 +120,7 @@ class HasBinaryUuidTest extends TestCase
         $this->assertEquals($encodeUuid, $decodedUuid);
     }
 
-    private function createModel(string $uuid, ?string $relationUuid = null): TestModel
+    private function createModel(string $uuid, $relationUuid = null): TestModel
     {
         $model = new TestModel();
 
