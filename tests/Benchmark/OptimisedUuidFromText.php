@@ -2,7 +2,6 @@
 
 namespace Spatie\BinaryUuid\Test\Benchmark;
 
-
 use Spatie\BinaryUuid\Test\Benchmark\Result\InlineResult;
 
 class OptimisedUuidFromText extends AbstractBenchmark
@@ -14,12 +13,10 @@ class OptimisedUuidFromText extends AbstractBenchmark
 
     public function table()
     {
-        return;
     }
 
     public function seed()
     {
-        return;
     }
 
     public function run(): InlineResult

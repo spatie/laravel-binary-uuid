@@ -15,15 +15,13 @@ class TextualUuid extends AbstractBenchmark
 
     public function table()
     {
-        return;
     }
 
     public function seed()
     {
-        return;
     }
 
-    public function withBenchmarkRoundsTextualUuid($benchmarkRoundsTextualUuid): TextualUuid
+    public function withBenchmarkRoundsTextualUuid($benchmarkRoundsTextualUuid): self
     {
         $this->benchmarkRoundsTextualUuid = $benchmarkRoundsTextualUuid;
 
