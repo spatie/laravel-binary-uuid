@@ -55,17 +55,17 @@ Please note a few things:
 - If you're using any other name than `id` for the uuid, you must specify it in `$primaryKey`.
 
 If you're using this package with its default configuration: a field named `uuid` as the primary key,
-you can use the `HasDefaultUuidFields` trait so you don't have to manually override these fields.
+you can use the `HasUuidPrimaryKey` trait so you don't have to manually override these fields.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Spatie\BinaryUuid\HasBinaryUuid;
-use Spatie\BinaryUuid\HasDefaultUuidFields;
+use Spatie\BinaryUuid\HasUuidPrimaryKey;
 
 class TestModel extends Model
 {
     use HasBinaryUuid;
-    use HasDefaultUuidFields;
+    use HasUuidPrimaryKey;
 }
 ```
  

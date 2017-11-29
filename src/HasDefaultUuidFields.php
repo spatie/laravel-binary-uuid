@@ -2,7 +2,7 @@
 
 namespace Spatie\BinaryUuid;
 
-trait HasDefaultUuidFields
+trait HasUuidPrimaryKey
 {
     public function getKeyName()
     {
