@@ -1,4 +1,4 @@
-# Optimised binary UUIDs in Laravel
+# Using optimised binary UUIDs in Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
 [![Build Status](https://img.shields.io/travis/spatie/laravel-binary-uuid/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-binary-uuid)
@@ -7,12 +7,15 @@
 [![StyleCI](https://styleci.io/repos/110949385/shield?branch=master)](https://styleci.io/repos/110949385)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
 
-There are some use case where you want to use uuids as a primary key in your database. Unfortunately using a regular uuid can be quite slow.
+Using a regular uuid as a primary key is guaranteed to be slow.
 
-This package solves that performance problems by storing a slightly tweaked binary version of the uuid. You can read more about this storing mechanism here: [http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/](http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/).
+This package solves the performance problem by storing slightly tweaked binary versions of the uuid. You can read more about the storing mechanism here: [http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/](http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/).
 
+The package can generate optimized versions of the uuid. It also provides handy model scopes to easily retrieve models that use binary uuids.
 
- The package currently only supports MySQL and SQLite.
+Want to test the perfomance improvements on your system? No problem, we've included [benchmarks](#running-the-benchmarks).
+
+The package currently only supports MySQL and SQLite.
 
 ## Installation
 
