@@ -34,7 +34,7 @@
     <php>
         <env name="DB_NAME" value="uuid_performance"/>
         <env name="DB_USER" value="root"/>
-        <env name="DB_PASSWORD" value="root"/>
+        <env name="DB_PASSWORD" value=""/>
         <env name="DB_HOST" value="localhost"/>
         <env name="FLUSH_QUERY_AMOUNT" value="5000"/>
         <env name="RECORDS_IN_TABLE" value="500000"/>
