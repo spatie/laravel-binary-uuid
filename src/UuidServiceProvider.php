@@ -3,14 +3,14 @@
 namespace Spatie\BinaryUuid;
 
 use Exception;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidFactory;
 use Illuminate\Database\Connection;
 use Illuminate\Support\ServiceProvider;
+use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Illuminate\Database\Schema\Grammars\Grammar;
 use Illuminate\Database\Query\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 use Illuminate\Database\Query\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar;
-use Ramsey\Uuid\Codec\OrderedTimeCodec;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidFactory;
 
 class UuidServiceProvider extends ServiceProvider
 {
