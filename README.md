@@ -44,7 +44,7 @@ use Spatie\BinaryUuid\HasBinaryUuid;
 
 class TestModel extends Model
 {
-    use HasBinaryUuid
+    use HasBinaryUuid,
         HasUuidPrimaryKey;
 }
 ```
