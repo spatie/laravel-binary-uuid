@@ -72,33 +72,36 @@ class BenchmarkTest extends TestCase
                     ->withRecordsInTable($recordsInTable)
                     ->withBenchmarkRounds(getenv('BENCHMARK_ROUNDS'))
                     ->withFlushAmount(getenv('FLUSH_QUERY_AMOUNT'));
+            })
+
+            ->tap(function () {
+                $this->writeln("\nCreating tables");
+            })
+            ->each(function (Benchmark $benchmark) {
+                $benchmark->createTable();
+
+                $this->writeln("\t- {$benchmark->name()}");
+            })
+
+            ->tap(function () {
+                $this->writeln("\nSeeding tables");
+
+            })
+            ->each(function (Benchmark $benchmark) {
+                $benchmark->seedTable();
+
+                $this->writeln("\t- {$benchmark->name()}");
+            })
+
+            ->tap(function () {
+                $this->writeln("\nRunning benchmarks");
+            })->each(function (Benchmark $benchmark) {
+                $this->writeln("\t- {$benchmark->name()}: ");
+
+                $result = $benchmark->run();
+
+                $this->writeln("\t\tAvarage of {$result->getAverageInMilliSeconds()}ms over {$result->getIterations()} iterations.");
             });
-
-        $this->writeln("\nCreating tables");
-
-        $benchmarks->each(function (Benchmark $benchmark) {
-            $benchmark->createTable();
-
-            $this->writeln("\t- {$benchmark->name()}");
-        });
-
-        $this->writeln("\nSeeding tables");
-
-        $benchmarks->each(function (Benchmark $benchmark) {
-            $benchmark->seedTable();
-
-            $this->writeln("\t- {$benchmark->name()}");
-        });
-
-        $this->writeln("\nRunning benchmarks");
-
-        $benchmarks->each(function (Benchmark $benchmark) {
-            $this->writeln("\t- {$benchmark->name()}: ");
-
-            $result = $benchmark->run();
-
-            $this->writeln("\t\tAvarage of {$result->getAverageInMilliSeconds()}ms over {$result->getIterations()} iterations.");
-        });
     }
 
     protected function writeln(string $message)
