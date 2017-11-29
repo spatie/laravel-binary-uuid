@@ -15,7 +15,11 @@ abstract class Benchmark
     protected $benchmarkRounds = 100;
 
     protected $randomTexts = [];
+
+    /** @var \Doctrine\DBAL\Driver\Connection  */
     protected $connection;
+
+    /** @var \Faker\Generator  */
     protected $faker;
 
     protected $result = [];
