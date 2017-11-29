@@ -7,23 +7,24 @@
 [![StyleCI](https://styleci.io/repos/110949385/shield?branch=master)](https://styleci.io/repos/110949385)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
 
-This package adds support for optimised binary encoded UUIDs in a MySQL or SQLite database.
+There are some use case where you want to use uuids as a primary key in your database. Unfortunately using a regular uuid can be quite slow.
+
+This package solves that performance problems by storing a slightly tweaked binary version of the uuid. You can read more about this storing mechanism here: [http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/](http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/).
+
+
+ The package currently only supports MySQL and SQLite.
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via Composer:
 
 ```bash
 composer require spatie/laravel-binary-uuid
 ```
 
 ## Usage
-
-Optimised UUIDs are stored as a binary encoded string in the database. 
-Besides storing them as binary, some bits are also switched, allowing MySQL to better index them. 
-You can read more about this storing mechanism here: [http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/](http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/).
  
-To let a model make use of these optimised UUIDs, you must add a `uuid` field as the primary field in the table.
+To let a model make use of optimised UUIDs, you must add a `uuid` field as the primary field in the table.
 
 ```php
 Schema::create('table_name', function (Blueprint $table) {
@@ -32,9 +33,21 @@ Schema::create('table_name', function (Blueprint $table) {
 });
 ```
 
-Note that the name of the field can be chosen.
+If you want to use uuid as a primary key you must let your model use the `HasBinaryUuid` and the `HasUuidPrimaryKey` traits.
 
-In the model, you can use the `HasBinaryUuid` trait which will add the required functionality to support the binary conversion of the UUID.
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\BinaryUuid\HasBinaryUuid;
+
+class TestModel extends Model
+{
+    use HasBinaryUuid
+        HasUuidPrimaryKey;
+}
+```
+
+
+If don't like the primary key named `uuid` you can leave off the `HasUuidPrimaryKey` trait and manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -45,35 +58,47 @@ class TestModel extends Model
     use HasBinaryUuid;
 
     public $incrementing = false;
-    protected $primaryKey = 'uuid';
+    
+    public $primaryKey = 'uuid';
 }
 ```
 
-Please note a few things:
 
-- `$incrementing` must be `false` in order for the UUID to work as your primary key.
-- If you're using any other name than `id` for the uuid, you must specify it in `$primaryKey`.
+### Creating a model
 
-If you're using this package with its default configuration: a field named `uuid` as the primary key,
-you can use the `HasUuidPrimaryKey` trait so you don't have to manually override these fields.
+The UUID of a model will automatically be generated upon save.
 
 ```php
-use Illuminate\Database\Eloquent\Model;
-use Spatie\BinaryUuid\HasBinaryUuid;
-use Spatie\BinaryUuid\HasUuidPrimaryKey;
+$model = MyModel::create();
 
-class TestModel extends Model
-{
-    use HasBinaryUuid;
-    use HasUuidPrimaryKey;
-}
+dump($model->uuid); // b"\x11þ╩ÓB#(ªë\x1FîàÉ\x1EÝ." 
 ```
- 
+
+### Getting a human-readable UUID
+
+UUIDs are only stored as binary in the database. You can however use a textual version for eg. URL generation.
+
+```php
+$model = MyModel::create();
+
+dump($model->uuid_text); // "6dae40fa-cae0-11e7-80b6-8c85901eed2e" 
+```
+
+If you want to set a specific UUID before creating a model, that's also possible.
+
+It's unlikely though that you'd ever want to do this.
+
+```php
+$model = new MyModel();
+
+$model->uuid_text = $uuid;
+
+$model->save();
+```
 
 ### Querying the model
 
-The most optimal way to query the database is with the binary encoded version of a UUID. 
-There's a scope included in the `HasBinaryUuid` trait to do exactly this.
+The most optimal way to query the database:
 
 ```php
 $uuid = 'ff8683dc-cadd-11e7-9547-8c85901eed2e'; // UUID from eg. the URL.
@@ -110,53 +135,25 @@ $models = MyModel::withUuid([
 ], 'relation_field')->get();
 ```
 
-### Creating
+## Running the benchmarks
 
-The UUID of a model will automatically be generated upon save.
+The package contains benchmarks that prove storing uuids in a tweaked binary form is really more performant. 
 
-```php
-$model = MyModel::create();
+Before running the tests you should set up a MySQL database and specify the connection configuration in `phpunit.xml.dist`.
 
-dump($model->uuid); // b"\x11þ╩ÓB#(ªë\x1FîàÉ\x1EÝ." 
-```
-
-### Human-readable UUID
-
-UUIDs are only stored as binary in the database. You can however use a textual version for eg. URL generation.
-
-```php
-$model = MyModel::create();
-
-dump($model->uuid_text); // "6dae40fa-cae0-11e7-80b6-8c85901eed2e" 
-```
-
-If you want to set a specific UUID before creating a model, that's also possible.
-It's unlikely though that you'd ever want to do this.
-
-```php
-$model = new MyModel();
-
-$model->uuid_text = $uuid;
-
-$model->save();
-```
-
-### Benchmarks
-
-Before making this module, we ran some benchmarks to determine whether it was worth the effort to work with optimised binary UUIDs.
-These benchmarks are included in this repository and can be run with PHPUnit.
-By default, PHPUnit won't execute them. Note that running the benchmarks can take several minutes!
-You'll also need a MySQL database setup. Check the environment configuration in `phpunit.xml.dist` for more information. 
-
+To run the tests issue this command.
 ```
 phpunit -d memory_limit=-1 --testsuite=benchmarks
 ```
 
-These benchmarks will compare several ways of saving and querying data with IDs and UUIDs.
-Average results are outputted in the terminal, while all individual query stats are saved in CSV files in the test folder.
+Running the benchmarks can take several minutes. You'll have time for several cups of coffee!
+
+
+While the test are running average results are outputted in the terminal. After the tests are complete you'll find individual query stats as CSV files in the test folder.
 
 You may use this data to further investigate the performance of UUIDs in your local machine.
-We provided some charts based on benchmarks run by us. 
+
+Here are some results for the benchmarks running on our machine.
 
 *Querying with normal IDs is the fastest.*
 
@@ -172,13 +169,13 @@ This allows MySQL to better index them.*
 ![Optimised binary UUIDs are much beter](https://spatie.github.io/laravel-binary-uuid/optimised_binary_uuid.png "Querying with binary optimised IDs")
 
 
-### Testing
+## Testing
 
 ``` bash
 composer test
 ```
 
-### Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
@@ -186,7 +183,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
+## Security
 
 If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
 
