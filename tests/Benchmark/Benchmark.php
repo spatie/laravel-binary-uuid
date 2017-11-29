@@ -16,10 +16,10 @@ abstract class Benchmark
 
     protected $randomTexts = [];
 
-    /** @var \Doctrine\DBAL\Driver\Connection  */
+    /** @var \Doctrine\DBAL\Driver\Connection */
     protected $connection;
 
-    /** @var \Faker\Generator  */
+    /** @var \Faker\Generator */
     protected $faker;
 
     protected $result = [];

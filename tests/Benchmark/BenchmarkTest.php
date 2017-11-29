@@ -2,10 +2,10 @@
 
 namespace Spatie\BinaryUuid\Test\Benchmark;
 
-use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Illuminate\Support\Collection;
 
 class BenchmarkTest extends TestCase
 {
@@ -85,7 +85,6 @@ class BenchmarkTest extends TestCase
 
             ->tap(function () {
                 $this->writeln("\nSeeding tables");
-
             })
             ->each(function (Benchmark $benchmark) {
                 $benchmark->seedTable();
