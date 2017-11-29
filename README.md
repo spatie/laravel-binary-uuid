@@ -173,7 +173,7 @@ This allows MySQL to better index them.*
 
 *A comparison of the normal ID, binary UUID and optimised UUID approach. Optimised UUIDs outperform binary UUIDs on larger datasets.*
 
-![Comparing different methods](./docs/comparison.png "Comparing different methods")
+![Comparing different methods](https://spatie.github.io/laravel-binary-uuid/comparison.png "Comparing different methods")
 
 ## Testing
 
