@@ -49,19 +49,17 @@ trait HasBinaryUuid
         }, $uuid));
     }
 
-    public static function encodeUuid(string $uuid): string
+    public static function encodeUuid($uuid): string
     {
         if (! Uuid::isValid($uuid)) {
             return $uuid;
         }
 
-        $uuid = str_replace('-', '', (string) $uuid);
+        if (! $uuid instanceof Uuid) {
+            $uuid = Uuid::fromString($uuid);
+        }
 
-        return
-            substr(hex2bin($uuid), 6, 2)
-            .substr(hex2bin($uuid), 4, 2)
-            .substr(hex2bin($uuid), 0, 4)
-            .substr(hex2bin($uuid), 8, 8);
+        return $uuid->getBytes();
     }
 
     public static function decodeUuid(string $binaryUuid): string
@@ -70,18 +68,7 @@ trait HasBinaryUuid
             return $binaryUuid;
         }
 
-        $uuidWithoutDashes = bin2hex(
-            substr($binaryUuid, 4, 4)
-            .substr($binaryUuid, 2, 2)
-            .substr($binaryUuid, 0, 2)
-            .substr($binaryUuid, 8, 8)
-        );
-
-        $uuidWithDashes = collect([8, 13, 18, 23])->reduce(function ($uuid, $position) {
-            return substr_replace($uuid, '-', $position, 0);
-        }, $uuidWithoutDashes);
-
-        return $uuidWithDashes;
+        return Uuid::fromBytes($binaryUuid)->toString();
     }
 
     public function getUuidTextAttribute(): string

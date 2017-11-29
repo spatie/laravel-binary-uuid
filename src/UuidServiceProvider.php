@@ -8,6 +8,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Grammars\Grammar;
 use Illuminate\Database\Query\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 use Illuminate\Database\Query\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar;
+use Ramsey\Uuid\Codec\OrderedTimeCodec;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidFactory;
 
 class UuidServiceProvider extends ServiceProvider
 {
@@ -17,6 +20,8 @@ class UuidServiceProvider extends ServiceProvider
         $connection = app('db')->connection();
 
         $connection->setSchemaGrammar($this->createGrammarFromConnection($connection));
+
+        $this->optimizeUuids();
     }
 
     protected function createGrammarFromConnection(Connection $connection): Grammar
@@ -37,5 +42,16 @@ class UuidServiceProvider extends ServiceProvider
         }
 
         return new MySqlGrammar();
+    }
+
+    protected function optimizeUuids(): void
+    {
+        $factory = new UuidFactory();
+
+        $codec = new OrderedTimeCodec($factory->getUuidBuilder());
+
+        $factory->setCodec($codec);
+
+        Uuid::setFactory($factory);
     }
 }
