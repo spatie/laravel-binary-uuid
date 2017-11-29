@@ -2,7 +2,7 @@
 
 namespace Spatie\BinaryUuid\Test\Benchmark\Result;
 
-use Spatie\BinaryUuid\Test\Benchmark\AbstractBenchmark;
+use Spatie\BinaryUuid\Test\Benchmark\Benchmark;
 
 class InlineResult
 {
@@ -10,7 +10,7 @@ class InlineResult
     private $iterations;
     protected $averageInSeconds;
 
-    public function __construct(AbstractBenchmark $benchmark)
+    public function __construct(Benchmark $benchmark)
     {
         $result = $benchmark->result();
 

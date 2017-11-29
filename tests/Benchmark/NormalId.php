@@ -4,7 +4,7 @@ namespace Spatie\BinaryUuid\Test\Benchmark;
 
 use Spatie\BinaryUuid\Test\Benchmark\Result\InlineResult;
 
-class NormalId extends AbstractBenchmark
+class NormalId extends Benchmark
 {
     public function name(): string
     {

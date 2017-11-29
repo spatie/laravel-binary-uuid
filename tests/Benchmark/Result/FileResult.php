@@ -2,11 +2,11 @@
 
 namespace Spatie\BinaryUuid\Test\Benchmark\Result;
 
-use Spatie\BinaryUuid\Test\Benchmark\AbstractBenchmark;
+use Spatie\BinaryUuid\Test\Benchmark\Benchmark;
 
 class FileResult
 {
-    public static function save(AbstractBenchmark $benchmark)
+    public static function save(Benchmark $benchmark)
     {
         $slug = str_replace(' ', '-', strtolower($benchmark->name()))."_{$benchmark->recordsInTable()}";
 

@@ -4,7 +4,7 @@ namespace Spatie\BinaryUuid\Test\Benchmark;
 
 use Spatie\BinaryUuid\Test\Benchmark\Result\InlineResult;
 
-class TextualUuid extends AbstractBenchmark
+class TextualUuid extends Benchmark
 {
     private $benchmarkRoundsTextualUuid;
 

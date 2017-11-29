@@ -4,7 +4,7 @@ namespace Spatie\BinaryUuid\Test\Benchmark;
 
 use Spatie\BinaryUuid\Test\Benchmark\Result\InlineResult;
 
-class OptimisedUuidFromText extends AbstractBenchmark
+class OptimisedUuidFromText extends Benchmark
 {
     public function name(): string
     {

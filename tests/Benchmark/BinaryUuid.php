@@ -5,7 +5,7 @@ namespace Spatie\BinaryUuid\Test\Benchmark;
 use Ramsey\Uuid\Uuid;
 use Spatie\BinaryUuid\Test\Benchmark\Result\InlineResult;
 
-class BinaryUuid extends AbstractBenchmark
+class BinaryUuid extends Benchmark
 {
     public function name(): string
     {

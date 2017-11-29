@@ -8,7 +8,7 @@ use Doctrine\DBAL\Logging\DebugStack;
 use Spatie\BinaryUuid\Test\Benchmark\Result\FileResult;
 use Spatie\BinaryUuid\Test\Benchmark\Result\InlineResult;
 
-abstract class AbstractBenchmark
+abstract class Benchmark
 {
     protected $recordsInTable = 100;
     protected $flushAmount = 1000;
