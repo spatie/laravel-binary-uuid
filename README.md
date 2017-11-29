@@ -9,7 +9,7 @@
 
 Using a regular uuid as a primary key is guaranteed to be slow.
 
-This package solves the performance problem by storing slightly tweaked binary versions of the uuid. You can read more about this storing mechanism here: [http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/](http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/).
+This package solves the performance problem by storing slightly tweaked binary versions of the uuid. You can read more about the storing mechanism here: [http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/](http://mysqlserverteam.com/storing-uuid-values-in-mysql-tables/).
 
 The package can generate optimized versions of the uuid. It also provides handy model scopes to easily retrieve models that use binary uuids.
 
