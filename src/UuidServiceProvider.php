@@ -23,10 +23,10 @@ class UuidServiceProvider extends ServiceProvider
     {
         $queryGrammar = $connection->getQueryGrammar();
 
-        if (! in_array(
-            get_class($queryGrammar),
-            [IlluminateMySqlGrammar::class, IlluminateSQLiteGrammar::class]
-        )) {
+        if (!in_array(get_class($queryGrammar), [
+            IlluminateMySqlGrammar::class,
+            IlluminateSQLiteGrammar::class
+        ])) {
             throw new Exception("spatie/laravel-binary-uuid only supports MySql or SQLite connections. The current connection doesn't match those criteria.");
         }
 
