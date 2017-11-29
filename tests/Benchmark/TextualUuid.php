@@ -13,11 +13,11 @@ class TextualUuid extends Benchmark
         return 'Textual UUID';
     }
 
-    public function table()
+    public function createTable()
     {
     }
 
-    public function seed()
+    public function seedTable()
     {
     }
 

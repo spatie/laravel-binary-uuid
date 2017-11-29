@@ -11,7 +11,7 @@ class NormalId extends Benchmark
         return 'Normal ID';
     }
 
-    public function table()
+    public function createTable()
     {
         $this->connection->exec(<<<'SQL'
 DROP TABLE IF EXISTS `normal_id`;
@@ -25,7 +25,7 @@ SQL
         );
     }
 
-    public function seed()
+    public function seedTable()
     {
         $queries = [];
 

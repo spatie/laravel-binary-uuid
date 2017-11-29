@@ -11,11 +11,11 @@ class OptimisedUuidFromText extends Benchmark
         return 'Optimised UUID from text';
     }
 
-    public function table()
+    public function createTable()
     {
     }
 
-    public function seed()
+    public function seedTable()
     {
     }
 

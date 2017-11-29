@@ -12,7 +12,7 @@ class BinaryUuid extends Benchmark
         return 'Binary UUID';
     }
 
-    public function table()
+    public function createTable()
     {
         $this->connection->exec(<<<'SQL'
 DROP TABLE IF EXISTS `normal_uuid`;
@@ -36,7 +36,7 @@ SQL
         );
     }
 
-    public function seed()
+    public function seedTable()
     {
         $queries = [];
 

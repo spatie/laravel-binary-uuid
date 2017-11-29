@@ -39,7 +39,7 @@ class BenchmarkTest extends TestCase
                 ->withBenchmarkRoundsTextualUuid(getenv('BENCHMARK_ROUNDS_TEXTUAL_UUID')),
         ];
 
-        $this->writeln('Starting benchmarks..');
+        $this->writeln('Starting benchmarks...');
 
         $iterations = $this->determineIterations();
 
@@ -75,7 +75,7 @@ class BenchmarkTest extends TestCase
         $this->writeln("\nCreating tables");
 
         foreach ($benchmarks as $benchmark) {
-            $benchmark->table();
+            $benchmark->createTable();
 
             $this->writeln("\t- {$benchmark->name()}");
         }
@@ -83,7 +83,7 @@ class BenchmarkTest extends TestCase
         $this->writeln("\nSeeding tables");
 
         foreach ($benchmarks as $benchmark) {
-            $benchmark->seed();
+            $benchmark->seedTable();
 
             $this->writeln("\t- {$benchmark->name()}");
         }

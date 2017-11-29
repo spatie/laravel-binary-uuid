@@ -50,9 +50,9 @@ abstract class Benchmark
 
     abstract public function name(): string;
 
-    abstract public function table();
+    abstract public function createTable();
 
-    abstract public function seed();
+    abstract public function seedTable();
 
     abstract public function run(): InlineResult;
 
