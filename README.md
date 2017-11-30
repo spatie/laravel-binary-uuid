@@ -84,7 +84,8 @@ UUIDs are only stored as binary in the database. You can however use a textual v
 ```php
 $model = MyModel::create();
 
-dump($model->uuid_text); // "6dae40fa-cae0-11e7-80b6-8c85901eed2e" 
+dump($model->id); // "6dae40fa-cae0-11e7-80b6-8c85901eed2e"
+dump($model->uuid_text); // "6dae40fa-cae0-11e7-80b6-8c85901eed2e"
 ```
 
 If you want to set a specific UUID before creating a model, that's also possible.
