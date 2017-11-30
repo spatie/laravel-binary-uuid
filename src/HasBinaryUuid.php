@@ -91,8 +91,8 @@ trait HasBinaryUuid
         return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
     }
     
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return $this->uuid_text;
+        return 'uuid_text';
     }
 }
