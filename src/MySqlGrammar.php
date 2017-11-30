@@ -11,4 +11,9 @@ class MySqlGrammar extends IlluminateMySqlGrammar
     {
         return 'binary(16)';
     }
+
+    protected function typeUuidText(Fluent $column)
+    {
+        return 'char(36)';
+    }
 }
