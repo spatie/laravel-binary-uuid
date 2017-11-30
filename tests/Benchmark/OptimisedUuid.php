@@ -47,7 +47,7 @@ CREATE TABLE `optimised_uuid` (
             24,0,'-')
         ) virtual,
     
-    `normal_uuid_text` varchar(36),
+    `normal_uuid_text` char(36),
 
     PRIMARY KEY (`optimised_uuid_binary`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

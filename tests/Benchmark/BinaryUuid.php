@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `normal_uuid`;
 
 CREATE TABLE `normal_uuid` (
     `uuid` BINARY(16) NOT NULL,
-    `uuid_text` varchar(36) generated always as
+    `uuid_text` char(36) generated always as
         (insert(
             insert(
                 insert(
