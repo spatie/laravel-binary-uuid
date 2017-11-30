@@ -120,6 +120,20 @@ class HasBinaryUuidTest extends TestCase
         $this->assertEquals($encodeUuid, $decodedUuid);
     }
 
+    /** @test */
+    public function it_generates_valid_routes()
+    {
+        $uuid = Uuid::uuid1();
+        $this->createModel($uuid);
+
+        app('router')->get('uuid-test/{model}')->name('uuid-test');
+
+        $expected = "http://localhost/uuid-test/$uuid";
+        $actual = route('uuid-test', $uuid);
+
+        $this->assertEquals($expected, $actual);
+    }
+
     private function createModel(string $uuid, $relationUuid = null): TestModel
     {
         $model = new TestModel();
