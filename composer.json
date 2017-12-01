@@ -24,7 +24,7 @@
         "doctrine/dbal": "~2.5.0",
         "orchestra/database": "^3.5",
         "orchestra/testbench": "^3.5",
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.5"
     },
     "autoload": {
         "psr-4": {
