@@ -132,6 +132,28 @@ class HasBinaryUuidTest extends TestCase
         $this->assertContains("/uuid-test/{$uuid}", route('uuid-test', $model));
     }
 
+    /** @test */
+    public function it_serialises_the_model_correctly()
+    {
+        $model = TestModel::create();
+
+        $json = $model->toJson();
+
+        $this->assertContains($model->uuid_text, $json);
+        $this->assertNotContains($model->uuid, $json);
+    }
+
+    /** @test */
+    public function it_serialises_the_model_correctly_with_json_encode()
+    {
+        $model = TestModel::create();
+
+        $json = json_encode($model);
+
+        $this->assertContains($model->uuid_text, $json);
+        $this->assertNotContains($model->uuid, $json);
+    }
+
     private function createModel(string $uuid, $relationUuid = null): TestModel
     {
         $model = new TestModel();

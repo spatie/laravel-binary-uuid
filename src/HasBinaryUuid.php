@@ -71,6 +71,11 @@ trait HasBinaryUuid
         return Uuid::fromBytes($binaryUuid)->toString();
     }
 
+    public function toArray()
+    {
+        return array_merge(parent::toArray(), [$this->getKeyName() => $this->uuid_text]);
+    }
+
     public function getUuidTextAttribute(): string
     {
         return static::decodeUuid($this->{$this->getKeyName()});
