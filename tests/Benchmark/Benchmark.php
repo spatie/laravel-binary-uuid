@@ -2,7 +2,6 @@
 
 namespace Spatie\BinaryUuid\Test\Benchmark;
 
-use Doctrine\DBAL\Exception\SyntaxErrorException;
 use Faker\Factory;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Logging\DebugStack;
