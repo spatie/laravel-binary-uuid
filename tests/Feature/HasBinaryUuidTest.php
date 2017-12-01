@@ -148,7 +148,7 @@ class HasBinaryUuidTest extends TestCase
     {
         $model = TestModel::create();
 
-        $json = json_encode($model->toJson());
+        $json = json_encode($model);
 
         $this->assertContains($model->uuid_text, $json);
         $this->assertNotContains($model->uuid, $json);
