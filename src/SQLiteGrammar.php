@@ -11,4 +11,9 @@ class SQLiteGrammar extends IlluminateSQLiteGrammar
     {
         return 'binary(16)';
     }
+
+    protected function typeUuidText(Fluent $column)
+    {
+        return 'varchar';
+    }
 }
