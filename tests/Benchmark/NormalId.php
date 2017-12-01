@@ -13,13 +13,14 @@ class NormalId extends Benchmark
 
     public function createTable()
     {
-        $this->connection->exec(<<<'SQL'
+        $this->connection->exec(<<<SQL
 DROP TABLE IF EXISTS `normal_id`;
 
 CREATE TABLE `normal_id` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `text` TEXT NOT NULL,
-    PRIMARY KEY (`id`)
+    
+    KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SQL
         );

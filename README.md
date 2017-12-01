@@ -159,20 +159,7 @@ You may use this data to further investigate the performance of UUIDs in your lo
 
 Here are some results for the benchmarks running on our machine.
 
-*Querying with normal IDs is the fastest.*
-
-![Querying with normal IDs is the fastest](https://spatie.github.io/laravel-binary-uuid/normal_id.png "Querying with normal IDs")
-
-*Textual UUIDs by themselves are slow, and don't scale with bigger data sets.*
-
-![Textual UUIDs don't scale](https://spatie.github.io/laravel-binary-uuid/textual_uuid.png "Querying with textual UUIDs")
-
-*The solution provided by this package allows for much better UUID lookups because they are binary encoded and optimised. 
-This allows MySQL to better index them.*
-
-![Optimised binary UUIDs are much beter](https://spatie.github.io/laravel-binary-uuid/optimised_binary_uuid.png "Querying with binary optimised IDs")
-
-*A comparison of the normal ID, binary UUID and optimised UUID approach. Optimised UUIDs outperform binary UUIDs on larger datasets.*
+*A comparison of the normal ID, binary UUID and optimised UUID approach. Optimised UUIDs outperform all other on larger datasets.*
 
 ![Comparing different methods](https://spatie.github.io/laravel-binary-uuid/comparison.png "Comparing different methods")
 

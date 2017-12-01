@@ -35,9 +35,7 @@ class BenchmarkTest extends TestCase
             new NormalId($this->connection),
             new BinaryUuid($this->connection),
             new OptimisedUuid($this->connection),
-            new OptimisedUuidFromText($this->connection),
-            (new TextualUuid($this->connection))
-                ->withBenchmarkRoundsTextualUuid(getenv('BENCHMARK_ROUNDS_TEXTUAL_UUID')),
+            new TextualUuid($this->connection),
         ]);
 
         $this->writeln('Starting benchmarks...');
@@ -59,7 +57,11 @@ class BenchmarkTest extends TestCase
     {
         $max = getenv('RECORDS_IN_TABLE');
 
-        return array_filter([100, 1000, 50000, 500000], function ($recordsInTable) use ($max) {
+        return array_filter([
+            1000,
+            50000,
+            500000,
+        ], function ($recordsInTable) use ($max) {
             return $recordsInTable <= $max;
         });
     }

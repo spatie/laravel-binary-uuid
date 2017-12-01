@@ -3,7 +3,9 @@
 namespace Spatie\BinaryUuid\Test\Benchmark;
 
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Spatie\BinaryUuid\Test\Benchmark\Result\InlineResult;
+use Spatie\BinaryUuid\Test\TestModel;
 
 class OptimisedUuid extends Benchmark
 {
@@ -14,46 +16,15 @@ class OptimisedUuid extends Benchmark
 
     public function createTable()
     {
-        $this->connection->exec(<<<'SQL'
+        $this->connection->exec(<<<SQL
 DROP TABLE IF EXISTS `optimised_uuid`;
 
 CREATE TABLE `optimised_uuid` (
-    `optimised_uuid_binary` BINARY(16) NOT NULL,
+    `uuid` BINARY(16) NOT NULL,
+    `text` TEXT NOT NULL,
 
-    `generated_optimised_uuid_text` varchar(36) generated always as
-        (insert(
-            insert(
-                insert(
-                    insert(
-                        hex(
-                            optimised_uuid_binary
-                        ), 9,0,'-'),
-                    14,0,'-'),
-                19,0,'-'),
-            24,0,'-')
-        ) virtual,
-  
-    `generated_normal_uuid_from_optimised_uuid` varchar(36) generated always as
-        (insert(
-            insert(
-                insert(
-                    insert(
-                        hex(
-                            concat(substr(optimised_uuid_binary,5,4),substr(optimised_uuid_binary,3,2),
-                            substr(optimised_uuid_binary,1,2),substr(optimised_uuid_binary,9,8))
-                        ), 9,0,'-'),
-                    14,0,'-'),
-                19,0,'-'),
-            24,0,'-')
-        ) virtual,
-    
-    `normal_uuid_text` char(36),
-
-    PRIMARY KEY (`optimised_uuid_binary`),
-    UNIQUE (`normal_uuid_text`)
+    KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `optimised_uuid` ADD unique(`optimised_uuid_binary`);
 SQL
         );
     }
@@ -63,15 +34,14 @@ SQL
         $queries = [];
 
         for ($i = 0; $i < $this->recordsInTable; $i++) {
-            $uuid = Uuid::uuid1()->toString();
-            $uuidWithoutDash = str_replace('-', '', $uuid);
+            $uuid = Uuid::uuid1();
+
+            $encodedUuid = $this->encodeBinary($uuid);
+
+            $text = $this->randomTexts[array_rand($this->randomTexts)];
 
             $queries[] = <<<SQL
-INSERT INTO `optimised_uuid` (`optimised_uuid_binary`, `normal_uuid_text`) VALUES (
-  concat(substr(unhex('$uuidWithoutDash'), 7, 2), substr(unhex('$uuidWithoutDash'), 5, 2),
-        substr(unhex('$uuidWithoutDash'), 1, 4), substr(unhex('$uuidWithoutDash'), 9, 8)),
-  '$uuid'
-);
+INSERT INTO `optimised_uuid` (`uuid`, `text`) VALUES ('$encodedUuid', '$text');
 SQL;
 
             if (count($queries) > $this->flushAmount) {
@@ -88,17 +58,33 @@ SQL;
     public function run(): InlineResult
     {
         $queries = [];
-        $uuids = $this->connection->fetchAll('SELECT HEX(`optimised_uuid_binary`) AS optimised_uuid_binary FROM `optimised_uuid`');
+        $uuids = $this->connection->fetchAll('SELECT `uuid` FROM `optimised_uuid`');
 
         for ($i = 0; $i < $this->benchmarkRounds; $i++) {
-            $uuid = $uuids[array_rand($uuids)]['optimised_uuid_binary'];
+            $uuid = $uuids[array_rand($uuids)]['uuid'];
 
             $queries[] = <<<SQL
 SELECT * FROM `optimised_uuid` 
-WHERE `optimised_uuid_binary` = UNHEX('$uuid');
+WHERE `uuid` = '$uuid';
 SQL;
         }
 
         return $this->runQueryBenchmark($queries);
+    }
+
+    protected function encodeBinary(UuidInterface $uuid): string
+    {
+        $fields = $uuid->getFieldsHex();
+
+        $optimized = [
+            $fields['time_hi_and_version'],
+            $fields['time_mid'],
+            $fields['time_low'],
+            $fields['clock_seq_hi_and_reserved'],
+            $fields['clock_seq_low'],
+            $fields['node'],
+        ];
+
+        return hex2bin(implode('', $optimized));
     }
 }

@@ -14,24 +14,15 @@ class BinaryUuid extends Benchmark
 
     public function createTable()
     {
-        $this->connection->exec(<<<'SQL'
-DROP TABLE IF EXISTS `normal_uuid`;
+        $this->connection->exec(<<<SQL
+DROP TABLE IF EXISTS `binary_uuid`;
 
-CREATE TABLE `normal_uuid` (
+CREATE TABLE `binary_uuid` (
     `uuid` BINARY(16) NOT NULL,
-    `uuid_text` char(36) generated always as
-        (insert(
-            insert(
-                insert(
-                    insert(hex(uuid),9,0,'-'),
-                14,0,'-'),
-            19,0,'-'),
-            24,0,'-')
-        ) virtual,
     `text` TEXT NOT NULL,
-
-    PRIMARY KEY (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    
+    KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL
         );
     }
@@ -41,12 +32,12 @@ SQL
         $queries = [];
 
         for ($i = 0; $i < $this->recordsInTable; $i++) {
-            $uuid = Uuid::uuid1()->toString();
+            $uuid = str_replace('-', '', Uuid::uuid1()->toString());
 
             $text = $this->randomTexts[array_rand($this->randomTexts)];
 
             $queries[] = <<<SQL
-INSERT INTO `normal_uuid` (`uuid`, `text`) VALUES (UNHEX(REPLACE("$uuid", "-","")), '$text');
+INSERT INTO `binary_uuid` (`uuid`, `text`) VALUES (UNHEX('$uuid'), "$i $text");
 SQL;
 
             if (count($queries) > $this->flushAmount) {
@@ -63,12 +54,12 @@ SQL;
     public function run(): InlineResult
     {
         $queries = [];
-        $uuids = $this->connection->fetchAll('SELECT `uuid_text` FROM `normal_uuid`');
+        $uuids = $this->connection->fetchAll('SELECT `uuid` FROM `binary_uuid`');
 
         for ($i = 0; $i < $this->benchmarkRounds; $i++) {
-            $uuid = $uuids[array_rand($uuids)]['uuid_text'];
+            $uuid = $uuids[array_rand($uuids)]['uuid'];
 
-            $queries[] = "SELECT * FROM `normal_uuid` WHERE `uuid` = UNHEX(REPLACE('$uuid', '-', ''));";
+            $queries[] = 'SELECT * FROM `binary_uuid` WHERE `uuid` = "$uuid";';
         }
 
         return $this->runQueryBenchmark($queries);
