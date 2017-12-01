@@ -161,7 +161,7 @@ Here are some results for the benchmarks running on our machine.
 
 *A comparison of the normal ID, binary UUID and optimised UUID approach. Optimised UUIDs outperform all other on larger datasets.*
 
-![Comparing different methods](./docs/comparison.png "Comparing different methods")
+![Comparing different methods](https://spatie.github.io/laravel-binary-uuid/comparison.png "Comparing different methods")
 
 ## Testing
 
