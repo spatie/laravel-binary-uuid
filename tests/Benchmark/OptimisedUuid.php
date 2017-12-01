@@ -49,7 +49,8 @@ CREATE TABLE `optimised_uuid` (
     
     `normal_uuid_text` char(36),
 
-    PRIMARY KEY (`optimised_uuid_binary`)
+    PRIMARY KEY (`optimised_uuid_binary`),
+    UNIQUE (`normal_uuid_text`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `optimised_uuid` ADD unique(`optimised_uuid_binary`);
