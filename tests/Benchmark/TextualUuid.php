@@ -14,7 +14,7 @@ class TextualUuid extends Benchmark
 
     public function createTable()
     {
-        $this->connection->exec(<<<SQL
+        $this->connection->exec(<<<'SQL'
 DROP TABLE IF EXISTS `textual_uuid`;
 
 CREATE TABLE `textual_uuid` (
