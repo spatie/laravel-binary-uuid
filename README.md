@@ -41,6 +41,7 @@ If you want to use uuid as a primary key you must let your model use the `HasBin
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Spatie\BinaryUuid\HasBinaryUuid;
+use Spatie\BinaryUuid\HasUuidPrimaryKey;
 
 class TestModel extends Model
 {
