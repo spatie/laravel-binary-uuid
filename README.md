@@ -50,7 +50,6 @@ class TestModel extends Model
 }
 ```
 
-
 If don't like the primary key named `uuid` you can leave off the `HasUuidPrimaryKey` trait and manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
 
 ```php
@@ -65,6 +64,21 @@ class TestModel extends Model
     
     public $primaryKey = 'uuid';
 }
+```
+
+#### A note on the `uuid` blueprint method
+
+Because we're currently not able to add new blueprint methods which can be used without overriding services,
+we decided to override the `uuid` behaviour which will create a `BINARY` column instead of a `CHAR(36)` column.
+
+There are some cases in which Laravel's generated code will also use `uuid`, but doesn't support our binary implementation.
+An example are database notifications. 
+To make those work, you'll have to change the migration of those notifications to use `CHAR(36)`.
+
+```php
+// $table->uuid('id')->primary();
+
+$table->char('id', 36)->primary();
 ```
 
 
