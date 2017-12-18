@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar
 
 class SQLiteGrammar extends IlluminateSQLiteGrammar
 {
-    protected function typeUuid(Fluent $column)
+    protected function typeBinaryUuid(Fluent $column)
     {
         return 'binary(16)';
     }

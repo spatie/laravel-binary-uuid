@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 
 class MySqlGrammar extends IlluminateMySqlGrammar
 {
-    protected function typeUuid(Fluent $column)
+    protected function typeBinaryUuid(Fluent $column)
     {
         return 'binary(16)';
     }
