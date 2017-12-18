@@ -3,6 +3,7 @@
 namespace Spatie\BinaryUuid;
 
 use Exception;
+use Illuminate\Database\Schema\Blueprint;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
 use Illuminate\Database\Connection;
@@ -22,6 +23,10 @@ class UuidServiceProvider extends ServiceProvider
         $connection->setSchemaGrammar($this->createGrammarFromConnection($connection));
 
         $this->optimizeUuids();
+
+        Blueprint::macro('binaryUuid', function ($column) {
+            return $this->addColumn('binaryUuid', $column);
+        });
     }
 
     protected function createGrammarFromConnection(Connection $connection): Grammar

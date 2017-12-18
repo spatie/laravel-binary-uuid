@@ -38,8 +38,8 @@ class TestCase extends Orchestra
         Schema::dropIfExists('test');
 
         Schema::create('test', function (Blueprint $table) {
-            $table->uuid('uuid');
-            $table->uuid('relation_uuid')->nullable();
+            $table->binaryUuid('uuid')->primary();
+            $table->binaryUuid('relation_uuid')->nullable();
 
             $table->timestamps();
         });
