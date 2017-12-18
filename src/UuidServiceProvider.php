@@ -3,7 +3,6 @@
 namespace Spatie\BinaryUuid;
 
 use Exception;
-use Illuminate\Database\Schema\Blueprint;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
 use Illuminate\Database\Connection;
