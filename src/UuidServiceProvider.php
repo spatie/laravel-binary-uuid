@@ -3,12 +3,12 @@
 namespace Spatie\BinaryUuid;
 
 use Exception;
-use Illuminate\Database\Schema\Blueprint;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidFactory;
 use Illuminate\Database\Connection;
 use Illuminate\Support\ServiceProvider;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\Grammar;
 use Illuminate\Database\Query\Grammars\MySqlGrammar as IlluminateMySqlGrammar;
 use Illuminate\Database\Query\Grammars\SQLiteGrammar as IlluminateSQLiteGrammar;
