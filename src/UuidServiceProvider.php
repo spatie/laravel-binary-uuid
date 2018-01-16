@@ -38,10 +38,14 @@ class UuidServiceProvider extends ServiceProvider
         }
 
         if ($queryGrammar instanceof IlluminateSQLiteGrammar) {
-            return new SQLiteGrammar();
+            $grammar = new SQLiteGrammar();
+        } else {
+            $grammar = new MySqlGrammar();
         }
 
-        return new MySqlGrammar();
+        $grammar->setTablePrefix($queryGrammar->getTablePrefix());
+
+        return $grammar;
     }
 
     protected function optimizeUuids()
