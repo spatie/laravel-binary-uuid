@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-binary-uuid` will be documented in this file
 
+## 1.1.3 - 2018-01-18
+
+- remove dependency om `laravel/framework` and add dependency on `laravel/queue`
+
 ## 1.1.2 - 2018-01-16
 
 - add table prefix support
