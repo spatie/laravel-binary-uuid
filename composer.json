@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.0",
-        "laravel/framework": "~5.5.22",
+        "illuminate/queue": "~5.5.28",
         "ramsey/uuid": "^3.7"
     },
     "require-dev": {
