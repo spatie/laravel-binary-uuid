@@ -66,6 +66,33 @@ class TestModel extends Model
 }
 ```
 
+If you try converting your model to JSON with binary attributes, you will see errors. By declaring your binary attributes in `$uuidAttributes` on your model, you will tell the package to cast those UUID's to text whenever they are converted to array. Also, this adds a dynamic accessor for each of the uuid attributes.
+
+```php
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\BinaryUuid\HasBinaryUuid;
+
+class TestModel extends Model
+{
+    use HasBinaryUuid;
+    
+    /**
+     * The binary UUID attributes that should be converted to text.
+     *
+     * @var array
+     */
+    protected $uuidAttributes = [
+        'uuid',
+        'country_uuid',
+    ];
+}
+```
+
+In your JSON you will see `uuid` and `country_uuid` in their textual representation.
+
+You can also access the textual representations directly with `$testModel->uuid_text` and `$testModel->country_uuid_text`. 
+
 #### A note on the `uuid` blueprint method
 
 Laravel currently doesn't allow adding new blueprint methods which can be used out of the box.

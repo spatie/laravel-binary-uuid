@@ -73,7 +73,54 @@ trait HasBinaryUuid
 
     public function toArray()
     {
-        return array_merge(parent::toArray(), [$this->getKeyName() => $this->uuid_text]);
+        $uuidAttributes = $this->getUuidAttributes();
+
+        $array = parent::toArray();
+        foreach ($uuidAttributes as $attributeKey) {
+            if (array_key_exists($attributeKey, $array)) {
+                $array[$attributeKey] = $this->{"{$attributeKey}_text"};
+            }
+        }
+
+        return $array;
+    }
+
+    public function getUuidAttributes()
+    {
+        $uuidAttributes = [$this->getKeyName()];
+        if (property_exists($this, 'uuidAttributes')) {
+            $uuidAttributes = $this->uuidAttributes === null ? [] : $this->uuidAttributes;
+        }
+
+        return $uuidAttributes;
+    }
+
+    public function getAttribute($key)
+    {
+        if (($uuidKey = $this->uuidTextAttribute($key)) && $this->{$uuidKey} !== null) {
+            return static::decodeUuid($this->{$uuidKey});
+        }
+
+        return parent::getAttribute($key);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        if ($uuidKey = $this->uuidTextAttribute($key)) {
+            $value = static::encodeUuid($value);
+        }
+
+        return parent::setAttribute($key, $value);
+    }
+
+    protected function uuidTextAttribute($key)
+    {
+        if (substr($key, -5) == '_text' &&
+            in_array(($uuidKey = substr($key, 0, -5)), $this->getUuidAttributes())) {
+            return $uuidKey;
+        }
+
+        return false;
     }
 
     public function getUuidTextAttribute(): string
