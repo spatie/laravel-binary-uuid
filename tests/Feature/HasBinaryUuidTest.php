@@ -8,6 +8,8 @@ use Spatie\BinaryUuid\Test\TestModel;
 
 class HasBinaryUuidTest extends TestCase
 {
+    use CreatesModel;
+
     /** @test */
     public function it_generates_the_uuid_on_save()
     {
@@ -152,20 +154,5 @@ class HasBinaryUuidTest extends TestCase
 
         $this->assertContains($model->uuid_text, $json);
         $this->assertNotContains($model->uuid, $json);
-    }
-
-    private function createModel(string $uuid, $relationUuid = null): TestModel
-    {
-        $model = new TestModel();
-
-        $model->uuid_text = $uuid;
-
-        if ($relationUuid) {
-            $model->relation_uuid = TestModel::encodeUuid($relationUuid);
-        }
-
-        $model->save();
-
-        return $model;
     }
 }
