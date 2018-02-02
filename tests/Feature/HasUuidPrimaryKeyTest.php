@@ -38,7 +38,7 @@ class HasUuidPrimaryKeyTest extends TestCase
 
         $this->get("uuid-test/{$uuid->toString()}")
             ->assertJson([
-                'uuid' => $uuid
+                'uuid' => $uuid,
             ]);
     }
 }
