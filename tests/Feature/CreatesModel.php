@@ -20,5 +20,4 @@ trait CreatesModel
 
         return $model;
     }
-    
 }
