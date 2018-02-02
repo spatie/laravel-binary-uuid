@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\BinaryUuid\Test\Unit;
+namespace Spatie\BinaryUuid\Test\Feature;
 
 use Ramsey\Uuid\Uuid;
 use Spatie\BinaryUuid\Test\TestCase;
