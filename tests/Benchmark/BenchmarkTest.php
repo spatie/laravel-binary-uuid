@@ -13,6 +13,10 @@ class BenchmarkTest extends TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped("`doctrine/dbal` doesn't support symfony 4 yet.");
+
+        return;
+
         parent::setUp();
 
         $config = new Configuration();
