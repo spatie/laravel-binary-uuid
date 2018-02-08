@@ -5,6 +5,7 @@ All notable changes to `laravel-binary-uuid` will be documented in this file
 ## 1.1.4 - 2018-02-08
 
 - Support Laravel 5.6
+- Temporary remove `doctrine/dbal` support, so the benchmarks can't be run anymore.
 
 ## 1.1.3 - 2018-01-18
 
