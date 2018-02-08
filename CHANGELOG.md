@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-binary-uuid` will be documented in this file
 
+## 1.1.4 - 2018-02-08
+
+- Support Laravel 5.6
+
 ## 1.1.3 - 2018-01-18
 
 - remove dependency om `laravel/framework` and add dependency on `laravel/queue`
