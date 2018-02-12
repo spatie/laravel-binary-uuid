@@ -100,4 +100,19 @@ trait HasBinaryUuid
     {
         return 'uuid_text';
     }
+
+    public function getKeyName()
+    {
+        return 'uuid';
+    }
+
+    public function getIncrementing()
+    {
+        return false;
+    }
+
+    public function resolveRouteBinding($value)
+    {
+        return $this->withUuid($value)->first();
+    }
 }

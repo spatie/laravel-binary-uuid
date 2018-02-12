@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-binary-uuid` will be documented in this file
 
+## 1.1.5 - 2018-02-12
+
+- Better support for route binding #36.
+- Deprecate the `HasUuidPrimaryKey` trait, as its functionality is moved to `HasBinaryUuid`.
+
 ## 1.1.4 - 2018-02-08
 
 - Support Laravel 5.6

@@ -36,17 +36,15 @@ Schema::create('table_name', function (Blueprint $table) {
 });
 ```
 
-If you want to use uuid as a primary key you must let your model use the `HasBinaryUuid` and the `HasUuidPrimaryKey` traits.
+To get your model to work with the encoded UUID, use the `Spatie\BinaryUuid\HasBinaryUuid` trait in your model.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Spatie\BinaryUuid\HasBinaryUuid;
-use Spatie\BinaryUuid\HasUuidPrimaryKey;
 
 class TestModel extends Model
 {
-    use HasBinaryUuid,
-        HasUuidPrimaryKey;
+    use HasBinaryUuid;
 }
 ```
 
@@ -58,8 +56,7 @@ use Spatie\BinaryUuid\HasBinaryUuid;
 
 class TestModel extends Model
 {
-    use HasBinaryUuid,
-        HasUuidPrimaryKey;
+    use HasBinaryUuid;
 
     public function getKeyName()
     {
@@ -82,7 +79,6 @@ To make those work, you'll have to change the migration of those notifications t
 
 $table->char('id', 36)->primary();
 ```
-
 
 ### Creating a model
 
