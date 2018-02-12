@@ -50,7 +50,7 @@ class TestModel extends Model
 }
 ```
 
-If don't like the primary key named `uuid` you can leave off the `HasUuidPrimaryKey` trait and manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
+If don't like the primary key named `uuid` you can overwrite the `getKeyName` method to manually specify the primary key name.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -58,11 +58,13 @@ use Spatie\BinaryUuid\HasBinaryUuid;
 
 class TestModel extends Model
 {
-    use HasBinaryUuid;
+    use HasBinaryUuid,
+        HasUuidPrimaryKey;
 
-    public $incrementing = false;
-    
-    public $primaryKey = 'uuid';
+    public function getKeyName()
+    {
+        return 'uuid';
+    }
 }
 ```
 

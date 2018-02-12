@@ -13,4 +13,9 @@ trait HasUuidPrimaryKey
     {
         return false;
     }
+
+    public function resolveRouteBinding($value)
+    {
+        return $this->withUuid($value)->first();
+    }
 }
