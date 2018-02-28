@@ -73,11 +73,19 @@ trait HasBinaryUuid
 
     public function toArray()
     {
+        if (! $this->exists) {
+            return parent::toArray();
+        }
+
         return array_merge(parent::toArray(), [$this->getKeyName() => $this->uuid_text]);
     }
 
-    public function getUuidTextAttribute(): string
+    public function getUuidTextAttribute(): ?string
     {
+        if (! $this->exists) {
+            return null;
+        }
+
         return static::decodeUuid($this->{$this->getKeyName()});
     }
 

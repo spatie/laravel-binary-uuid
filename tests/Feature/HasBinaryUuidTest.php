@@ -155,4 +155,13 @@ class HasBinaryUuidTest extends TestCase
         $this->assertContains($model->uuid_text, $json);
         $this->assertNotContains($model->uuid, $json);
     }
+
+    /** @test */
+    public function it_prevents_decoding_the_uuid_when_the_model_does_not_exist()
+    {
+        $model = new TestModel;
+
+        $this->assertEmpty($model->toArray());
+        $this->assertNull($model->uuid_text);
+    }
 }
