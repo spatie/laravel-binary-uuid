@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-binary-uuid` will be documented in this file
 
+## 1.1.6 - 2018-03-01
+
+- Prevent decoding the uuid when the model does not exist (#40).
+- Bump minimum PHP version to 7.1 to support nullable type hints. 
+
 ## 1.1.5 - 2018-02-12
 
 - Better support for route binding #36.
