@@ -164,4 +164,20 @@ class HasBinaryUuidTest extends TestCase
         $this->assertEmpty($model->toArray());
         $this->assertNull($model->uuid_text);
     }
+
+    /** @test */
+    public function it_generates_uuids_in_binary_form()
+    {
+        $binaryUuid = TestModel::generateUuid();
+
+        $this->assertTrue(Uuid::isValid(TestModel::decodeUuid($binaryUuid)));
+    }
+
+    /** @test */
+    public function it_generates_uuids_in_text_form()
+    {
+        $binaryUuid = TestModel::generateUuid(true);
+
+        $this->assertTrue(Uuid::isValid($binaryUuid));
+    }
 }
