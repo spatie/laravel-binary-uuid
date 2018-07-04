@@ -52,6 +52,7 @@ trait HasBinaryUuid
     public static function generateUuid(bool $asText = false) : string
     {
         $uuid = Uuid::uuid1();
+
         return $asText ? (string) $uuid : static::encodeUuid($uuid);
     }
 
