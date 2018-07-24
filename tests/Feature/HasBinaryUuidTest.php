@@ -164,4 +164,14 @@ class HasBinaryUuidTest extends TestCase
         $this->assertEmpty($model->toArray());
         $this->assertNull($model->uuid_text);
     }
+
+    /** @test */
+    public function it_prevents_decoding_model_key_when_it_is_not_included_in_attributes()
+    {
+        $model = TestModel::create();
+        $model->setRawAttributes(['test' => 'test']);
+        $array = $model->toArray();
+
+        $this->assertFalse(isset($array[$model->getKeyName()]));
+    }
 }
