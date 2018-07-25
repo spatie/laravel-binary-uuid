@@ -77,7 +77,13 @@ trait HasBinaryUuid
             return parent::toArray();
         }
 
-        return array_merge(parent::toArray(), [$this->getKeyName() => $this->uuid_text]);
+        $data = parent::toArray();
+
+        if (isset($data[$this->getKeyName()])) {
+            $data[$this->getKeyName()] = $this->uuid_text;
+        }
+
+        return $data;
     }
 
     public function getUuidTextAttribute(): ?string
