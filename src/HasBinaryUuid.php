@@ -71,7 +71,7 @@ trait HasBinaryUuid
         return Uuid::fromBytes($binaryUuid)->toString();
     }
 
-    public function toArray()
+    /*public function toArray()
     {
         if (! $this->exists) {
             return parent::toArray();
@@ -84,7 +84,103 @@ trait HasBinaryUuid
         }
 
         return $data;
+    }*/
+    
+    public function toArray()
+    {
+			
+        $uuidAttributes = $this->getUuidAttributes();
+        
+        $array = parent::toArray();
+          
+        if (! $this->exists) {
+		  
+            return $array;
+        }
+	    
+	    
+        if (is_array($uuidAttributes)) {
+		  
+            foreach ($uuidAttributes as $attributeKey) {
+			
+                if (array_key_exists($attributeKey, $array)) {
+                    if($attributeKey === 'id'){
+					    $uuidKey = $this->getRouteKeyName();
+				    } else {
+					    $uuidKey = $this->getRelatedBinaryKeyName($attributeKey);
+				    }
+
+                    $array[$attributeKey] = $this->{$uuidKey};
+			    }
+            }
+        }
+
+        return $array;
     }
+	
+    public function getRelatedBinaryKeyName($attrib)
+    {
+
+        $trail = $this->uuidTextTrail;
+
+        return "{$attrib}{$trail}";
+    }
+    
+    public function getAttribute($key)
+    {
+
+        if (($uuidKey = $this->uuidTextAttribute($key)) && $this->{$uuidKey} !== null) {
+                         return static::decodeUuid($this->{$uuidKey});
+        }
+
+        return parent::getAttribute($key);
+    }
+    
+    public function setAttribute($key, $value)
+    {
+        if ($uuidKey = $this->uuidTextAttribute($key)) {
+            $value = static::encodeUuid($value);
+        }
+
+        return parent::setAttribute($key, $value);
+    }
+
+    protected function uuidTextAttribute($key)
+    {
+
+        $attribute_s = $this->getKeyName();
+
+        if(is_string($attribute_s)){
+            $attribute_s = [ $attribute_s ];
+        }
+
+        if (substr($key, -5) == '_text' &&  in_array(($uuidKey = substr($key, 0, -5)), $attribute_s)) {
+            return $uuidKey;
+        }
+
+        return false;
+    }
+
+    public function getUuidAttributes()
+    {
+
+        $uuidAttributes = [];
+
+        if (property_exists($this, 'uuidAttributes')) {
+            $uuidAttributes = $this->uuidAttributes === null ? [] : $this->uuidAttributes;
+        }
+        
+        $key = $this->getKeyName();// ! composite primary keys will return an array
+
+        if (is_string($key)) {
+            $uuidAttributes = array_merge($uuidAttributes, [ $key ]); 
+        } else if (is_array($key)) {
+            $uuidAttributes = array_merge($uuidAttributes, $key);
+        }
+
+        return $uuidAttributes;
+    }
+    
 
     public function getUuidTextAttribute(): ?string
     {
