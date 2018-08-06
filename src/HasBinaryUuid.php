@@ -79,9 +79,9 @@ trait HasBinaryUuid
 
         $array = parent::toArray();
 
-        if (! $this->exists) {
-            return $array;
-        }
+        // if (! $this->exists) {
+            // return $array;
+        // }
 
         if (is_array($uuidAttributes)) {
 
