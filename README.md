@@ -77,6 +77,13 @@ class TestModel extends Model
     use HasBinaryUuid;
     
     /**
+     * The suffix for the uuid text attribute 
+     *
+     * @var
+     */
+    protected $uuidTextAttribSuffix = '_str';
+    
+    /**
      * The binary UUID attributes that should be converted to text.
      *
      * @var array
@@ -88,7 +95,7 @@ class TestModel extends Model
 }
 ```
 
-In your JSON you will see `uuid` and `country_uuid` in their textual representation. If you're also making use of composite primary keys, the above work well enough too. Just include your keys in the `$uuidAttributes` array or override the `getKeyName` method on your model and return your composite primary keys as an array of keys.
+In your JSON you will see `uuid` and `country_uuid` in their textual representation. If you're also making use of composite primary keys, the above works well enough too. Just include your keys in the `$uuidAttributes` array or override the `getKeyName()` method on your model and return your composite primary keys as an array of keys.
 
 #### A note on the `uuid` blueprint method
 
