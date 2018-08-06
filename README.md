@@ -36,7 +36,21 @@ Schema::create('table_name', function (Blueprint $table) {
 });
 ```
 
-To get your model to work with the encoded UUID, use the `Spatie\BinaryUuid\HasBinaryUuid` trait in your model.
+To get your model to work with the encoded UUID (i.e. to use uuid as a primary key), you must let your model use the `Spatie\BinaryUuid\HasBinaryUuid` and the `Spatie\BinaryUuid\HasUuidPrimaryKey` traits.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Spatie\BinaryUuid\HasBinaryUuid;
+use Spatie\BinaryUuid\HasUuidPrimaryKey;
+
+class TestModel extends Model
+{
+    use HasBinaryUuid,
+        HasUuidPrimaryKey;
+}
+```
+
+If don't like the primary key named `uuid` you can leave off the `HasUuidPrimaryKey` trait and manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -45,10 +59,14 @@ use Spatie\BinaryUuid\HasBinaryUuid;
 class TestModel extends Model
 {
     use HasBinaryUuid;
+
+    public $incrementing = false;
+    
+    public $primaryKey = 'uuid';
 }
 ```
 
-If don't like the primary key named `uuid` you can overwrite the `getKeyName` method to manually specify the primary key name.
+If you try converting your model to JSON with binary attributes, you will see errors. By declaring your binary attributes in `$uuidAttributes` on your model, you will tell the package to cast those UUID's to text whenever they are converted to array. Also, this adds a dynamic accessor for each of the uuid attributes.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -57,13 +75,20 @@ use Spatie\BinaryUuid\HasBinaryUuid;
 class TestModel extends Model
 {
     use HasBinaryUuid;
-
-    public function getKeyName()
-    {
-        return 'uuid';
-    }
+    
+    /**
+     * The binary UUID attributes that should be converted to text.
+     *
+     * @var array
+     */
+    protected $uuidAttributes = [
+        'uuid',
+        'country_uuid', // foreign key
+    ];
 }
 ```
+
+In your JSON you will see `uuid` and `country_uuid` in their textual representation. If you're also making use of composite primary keys, the above work well enough too. Just include your keys in the `$uuidAttributes` array or override the `getKeyName` method on your model and return your composite primary keys as an array of keys.
 
 #### A note on the `uuid` blueprint method
 
