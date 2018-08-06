@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait HasBinaryUuid
 {
+
     protected static function bootHasBinaryUuid()
     {
         static::creating(function (Model $model) {
@@ -70,21 +71,6 @@ trait HasBinaryUuid
 
         return Uuid::fromBytes($binaryUuid)->toString();
     }
-
-    /*public function toArray()
-    {
-        if (! $this->exists) {
-            return parent::toArray();
-        }
-
-        $data = parent::toArray();
-
-        if (isset($data[$this->getKeyName()])) {
-            $data[$this->getKeyName()] = $this->uuid_text;
-        }
-
-        return $data;
-    }*/
     
     public function toArray()
     {
@@ -94,24 +80,18 @@ trait HasBinaryUuid
         $array = parent::toArray();
           
         if (! $this->exists) {
-		  
             return $array;
         }
 	    
 	    
         if (is_array($uuidAttributes)) {
-		  
+
             foreach ($uuidAttributes as $attributeKey) {
 			
                 if (array_key_exists($attributeKey, $array)) {
-                    if($attributeKey === 'id'){
-					    $uuidKey = $this->getRouteKeyName();
-				    } else {
-					    $uuidKey = $this->getRelatedBinaryKeyName($attributeKey);
-				    }
-
+                    $uuidKey = $this->getRelatedBinaryKeyName($attributeKey);
                     $array[$attributeKey] = $this->{$uuidKey};
-			    }
+                }
             }
         }
 
@@ -121,16 +101,16 @@ trait HasBinaryUuid
     public function getRelatedBinaryKeyName($attrib)
     {
 
-        $trail = $this->uuidTextTrail;
+        $suffix = $this->getUuidTextAttributeSuffix();
 
-        return "{$attrib}{$trail}";
+        return "{$attrib}{$suffix}";
     }
     
     public function getAttribute($key)
     {
 
         if (($uuidKey = $this->uuidTextAttribute($key)) && $this->{$uuidKey} !== null) {
-                         return static::decodeUuid($this->{$uuidKey});
+            return static::decodeUuid($this->{$uuidKey});
         }
 
         return parent::getAttribute($key);
@@ -145,16 +125,23 @@ trait HasBinaryUuid
         return parent::setAttribute($key, $value);
     }
 
+    protected function getUuidTextAttributeSuffix()
+    {
+        return (property_exists($this, 'uuidTextAttribSuffix'))? $this->uuidTextAttribSuffix : '_text';
+    }
+
     protected function uuidTextAttribute($key)
     {
 
         $attribute_s = $this->getKeyName();
+        $suffix = $this->getUuidTextAttributeSuffix();
+        $offset = -(strlen($suffix));
 
-        if(is_string($attribute_s)){
+        if (is_string($attribute_s)) {
             $attribute_s = [ $attribute_s ];
         }
 
-        if (substr($key, -5) == '_text' &&  in_array(($uuidKey = substr($key, 0, -5)), $attribute_s)) {
+        if (substr($key, $offset) == $suffix && in_array(($uuidKey = substr($key, 0, $offset)), $attribute_s)) {
             return $uuidKey;
         }
 
@@ -208,7 +195,9 @@ trait HasBinaryUuid
 
     public function getRouteKeyName()
     {
-        return 'uuid_text';
+        $suffix = $this->getUuidTextAttributeSuffix();
+
+        return "uuid{$suffix}";
     }
 
     public function getKeyName()
