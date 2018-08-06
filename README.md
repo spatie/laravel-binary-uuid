@@ -78,7 +78,8 @@ class TestModel extends Model
     
     /**
      * The suffix for the uuid text attribute 
-     *
+     * by default its '_text'
+     * 
      * @var
      */
     protected $uuidTextAttribSuffix = '_str';
