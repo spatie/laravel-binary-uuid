@@ -74,20 +74,19 @@ trait HasBinaryUuid
     
     public function toArray()
     {
-			
+
         $uuidAttributes = $this->getUuidAttributes();
-        
+
         $array = parent::toArray();
-          
+
         if (! $this->exists) {
             return $array;
         }
-	    
-	    
+
         if (is_array($uuidAttributes)) {
 
             foreach ($uuidAttributes as $attributeKey) {
-			
+
                 if (array_key_exists($attributeKey, $array)) {
                     $uuidKey = $this->getRelatedBinaryKeyName($attributeKey);
                     $array[$attributeKey] = $this->{$uuidKey};
@@ -97,7 +96,7 @@ trait HasBinaryUuid
 
         return $array;
     }
-	
+
     public function getRelatedBinaryKeyName($attrib)
     {
 
@@ -105,7 +104,7 @@ trait HasBinaryUuid
 
         return "{$attrib}{$suffix}";
     }
-    
+
     public function getAttribute($key)
     {
 
@@ -115,9 +114,10 @@ trait HasBinaryUuid
 
         return parent::getAttribute($key);
     }
-    
+
     public function setAttribute($key, $value)
     {
+
         if ($uuidKey = $this->uuidTextAttribute($key)) {
             $value = static::encodeUuid($value);
         }
@@ -156,7 +156,7 @@ trait HasBinaryUuid
         if (property_exists($this, 'uuidAttributes')) {
             $uuidAttributes = $this->uuidAttributes === null ? [] : $this->uuidAttributes;
         }
-        
+
         $key = $this->getKeyName();// ! composite primary keys will return an array
 
         if (is_string($key)) {
