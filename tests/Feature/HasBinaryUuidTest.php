@@ -81,7 +81,7 @@ class HasBinaryUuidTest extends TestCase
     }
 
     /** @test */
-    public function it_decodes_columns_besides_primary_uuid_when_turned_to_array()
+    public function it_decodes_columns_besides_primary_uuid_when_turned_to_an_array()
     {
         $uuid = Uuid::uuid1();
         $relationUuid = Uuid::uuid1();
@@ -91,9 +91,8 @@ class HasBinaryUuidTest extends TestCase
         $modelArray = $model->toArray();
 
         $this->assertNotNull($model);
-        $this->assertCount(2, $modelArray);
+        $this->assertCount(4, $modelArray);
         $this->assertTrue(array_key_exists('relation_uuid', $modelArray));
-        $this->assertTrue(array_key_exists('uuid', $modelArray));
         $this->assertEquals($modelArray['relation_uuid'], $model->relation_uuid_text);
     }
 
