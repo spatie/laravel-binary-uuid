@@ -96,7 +96,7 @@ trait HasBinaryUuid
     {
         $suffix = $this->getUuidSuffix();
 
-        return preg_match("/(?:uu)?id/i", $attribute) !== null ? "{$attribute}{$suffix}" : $attribute;
+        return preg_match('/(?:uu)?id/i', $attribute) !== null ? "{$attribute}{$suffix}" : $attribute;
     }
 
     public function getAttribute($key)
