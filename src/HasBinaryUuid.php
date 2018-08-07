@@ -94,7 +94,7 @@ trait HasBinaryUuid
 
     public function getRelatedBinaryKeyName($attribute)
     {
-        $suffix = $this->getUuidTextAttributeSuffix();
+        $suffix = $this->getUuidSuffix();
 
         return preg_match("/(?:uu)?id/i", $attribute) !== null ? "{$attribute}{$suffix}" : $attribute;
     }
