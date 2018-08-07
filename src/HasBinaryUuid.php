@@ -96,7 +96,7 @@ trait HasBinaryUuid
     {
         $suffix = $this->getUuidSuffix();
 
-        return preg_match('/(?:uu)?id/i', $attribute) !== null ? "{$attribute}{$suffix}" : $attribute;
+        return preg_match('/(?:uu)?id/i', $attribute) ? "{$attribute}{$suffix}" : $attribute;
     }
 
     public function getAttribute($key)
@@ -155,16 +155,24 @@ trait HasBinaryUuid
 
     public function getUuidTextAttribute(): ?string
     {
-        if (! $this->exists) {
+        $key = $this->getKeyName();
+
+        if (! $this->exists || is_array($key)) {
             return null;
         }
 
-        return static::decodeUuid($this->{$this->getKeyName()});
+        return static::decodeUuid($this->{$key});
     }
 
     public function setUuidTextAttribute(string $uuid)
     {
-        $this->{$this->getKeyName()} = static::encodeUuid($uuid);
+        $key = $this->getKeyName();
+
+        if (is_array($key)) {
+            return;
+        }
+
+        $this->{$key} = static::encodeUuid($uuid);
     }
 
     public function getQueueableId()
