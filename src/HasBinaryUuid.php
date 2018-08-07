@@ -77,32 +77,33 @@ trait HasBinaryUuid
 
         $array = parent::toArray();
 
-        // if (! $this->exists) {
-        // return $array;
-        // }
+        if (! $this->exists || ! is_array($uuidAttributes)) {
+            return $array;
+        }
 
-        if (is_array($uuidAttributes)) {
-            foreach ($uuidAttributes as $attributeKey) {
-                if (array_key_exists($attributeKey, $array)) {
-                    $uuidKey = $this->getRelatedBinaryKeyName($attributeKey);
-                    $array[$attributeKey] = $this->{$uuidKey};
-                }
+        foreach ($uuidAttributes as $attributeKey) {
+            if (! array_key_exists($attributeKey, $array)) {
+                continue;
             }
+            $uuidKey = $this->getRelatedBinaryKeyName($attributeKey);
+            $array[$attributeKey] = $this->{$uuidKey};
         }
 
         return $array;
     }
 
-    public function getRelatedBinaryKeyName($attrib)
+    public function getRelatedBinaryKeyName($attribute)
     {
         $suffix = $this->getUuidTextAttributeSuffix();
 
-        return "{$attrib}{$suffix}";
+        return preg_match("/(?:uu)?id/i", $attribute) !== null ? "{$attribute}{$suffix}" : $attribute;
     }
 
     public function getAttribute($key)
     {
-        if (($uuidKey = $this->uuidTextAttribute($key)) && $this->{$uuidKey} !== null) {
+        $uuidKey = $this->uuidTextAttribute($key);
+
+        if ($uuidKey && $this->{$uuidKey} !== null) {
             return static::decodeUuid($this->{$uuidKey});
         }
 
@@ -111,50 +112,43 @@ trait HasBinaryUuid
 
     public function setAttribute($key, $value)
     {
-        if ($uuidKey = $this->uuidTextAttribute($key)) {
+        if ($this->uuidTextAttribute($key)) {
             $value = static::encodeUuid($value);
         }
 
         return parent::setAttribute($key, $value);
     }
 
-    protected function getUuidTextAttributeSuffix()
+    protected function getUuidSuffix()
     {
-        return (property_exists($this, 'uuidTextAttribSuffix')) ? $this->uuidTextAttribSuffix : '_text';
+        return (property_exists($this, 'uuidSuffix')) ? $this->uuidSuffix : '_text';
     }
 
     protected function uuidTextAttribute($key)
     {
-        $attribute_s = $this->getKeyName();
-        $suffix = $this->getUuidTextAttributeSuffix();
+        $uuidAttributes = $this->getUuidAttributes();
+        $suffix = $this->getUuidSuffix();
         $offset = -(strlen($suffix));
 
-        if (is_string($attribute_s)) {
-            $attribute_s = [$attribute_s];
-        }
-
-        if (substr($key, $offset) == $suffix && in_array(($uuidKey = substr($key, 0, $offset)), $attribute_s)) {
+        if (substr($key, $offset) == $suffix && in_array(($uuidKey = substr($key, 0, $offset)), $uuidAttributes)) {
             return $uuidKey;
         }
 
-        return false;
+        return null;
     }
 
     public function getUuidAttributes()
     {
         $uuidAttributes = [];
 
-        if (property_exists($this, 'uuidAttributes')) {
-            $uuidAttributes = $this->uuidAttributes === null ? [] : $this->uuidAttributes;
+        if (property_exists($this, 'uuids') && is_array($this->uuids)) {
+            $uuidAttributes = array_merge($uuidAttributes, $this->uuids);
         }
 
-        $key = $this->getKeyName(); // ! composite primary keys will return an array
+        // non composite primary keys will return a string so casting required
+        $key = (array) $this->getKeyName();
 
-        if (is_string($key)) {
-            $uuidAttributes = array_merge($uuidAttributes, [$key]);
-        } elseif (is_array($key)) {
-            $uuidAttributes = array_merge($uuidAttributes, $key);
-        }
+        $uuidAttributes = array_unique(array_merge($uuidAttributes, $key));
 
         return $uuidAttributes;
     }
@@ -185,7 +179,7 @@ trait HasBinaryUuid
 
     public function getRouteKeyName()
     {
-        $suffix = $this->getUuidTextAttributeSuffix();
+        $suffix = $this->getUuidSuffix();
 
         return "uuid{$suffix}";
     }
