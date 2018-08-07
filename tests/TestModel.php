@@ -16,4 +16,9 @@ class TestModel extends Model
     protected $uuidSuffix = '_text';
 
     protected $table = 'test';
+
+    public function setUuidSuffix($suffix = '_text')
+    {
+        $this->uuidSuffix = $suffix;
+    }
 }
