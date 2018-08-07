@@ -134,7 +134,7 @@ trait HasBinaryUuid
             return $uuidKey;
         }
 
-        return null;
+        return false;
     }
 
     public function getUuidAttributes()
