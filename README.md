@@ -78,20 +78,19 @@ class TestModel extends Model
     
     /**
      * The suffix for the uuid text attribute 
-     * by default its '_text'
+     * by default this is '_text'
      * 
      * @var
      */
-    protected $uuidTextAttribSuffix = '_str';
+    protected $uuidSuffix = '_str';
     
     /**
      * The binary UUID attributes that should be converted to text.
      *
      * @var array
      */
-    protected $uuidAttributes = [
-        'uuid',
-        'country_uuid', // foreign key
+    protected $uuids = [
+        'country_uuid' // foreign key
     ];
 }
 ```
