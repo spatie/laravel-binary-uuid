@@ -90,12 +90,12 @@ class TestModel extends Model
      * @var array
      */
     protected $uuids = [
-        'country_uuid' // foreign key
+        'country_uuid' // foreign or related key
     ];
 }
 ```
 
-In your JSON you will see `uuid` and `country_uuid` in their textual representation. If you're also making use of composite primary keys, the above works well enough too. Just include your keys in the `$uuidAttributes` array or override the `getKeyName()` method on your model and return your composite primary keys as an array of keys.
+In your JSON you will see `uuid` and `country_uuid` in their textual representation. If you're also making use of composite primary keys, the above works well enough too. Just include your keys in the `$uuids` array or override the `getKeyName()` method on your model and return your composite primary keys as an array of keys. You can also customize the UUID text attribute suffix name. In the code above, instead of '\_text' it's '\_str'.
 
 #### A note on the `uuid` blueprint method
 
