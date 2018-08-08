@@ -73,31 +73,106 @@ trait HasBinaryUuid
 
     public function toArray()
     {
-        if (! $this->exists) {
-            return parent::toArray();
+        $uuidAttributes = $this->getUuidAttributes();
+
+        $array = parent::toArray();
+
+        if (! $this->exists || ! is_array($uuidAttributes)) {
+            return $array;
         }
 
-        $data = parent::toArray();
-
-        if (isset($data[$this->getKeyName()])) {
-            $data[$this->getKeyName()] = $this->uuid_text;
+        foreach ($uuidAttributes as $attributeKey) {
+            if (! array_key_exists($attributeKey, $array)) {
+                continue;
+            }
+            $uuidKey = $this->getRelatedBinaryKeyName($attributeKey);
+            $array[$attributeKey] = $this->{$uuidKey};
         }
 
-        return $data;
+        return $array;
+    }
+
+    public function getRelatedBinaryKeyName($attribute)
+    {
+        $suffix = $this->getUuidSuffix();
+
+        return preg_match('/(?:uu)?id/i', $attribute) ? "{$attribute}{$suffix}" : $attribute;
+    }
+
+    public function getAttribute($key)
+    {
+        $uuidKey = $this->uuidTextAttribute($key);
+
+        if ($uuidKey && $this->{$uuidKey} !== null) {
+            return static::decodeUuid($this->{$uuidKey});
+        }
+
+        return parent::getAttribute($key);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        if ($this->uuidTextAttribute($key)) {
+            $value = static::encodeUuid($value);
+        }
+
+        return parent::setAttribute($key, $value);
+    }
+
+    protected function getUuidSuffix()
+    {
+        return (property_exists($this, 'uuidSuffix')) ? $this->uuidSuffix : '_text';
+    }
+
+    protected function uuidTextAttribute($key)
+    {
+        $uuidAttributes = $this->getUuidAttributes();
+        $suffix = $this->getUuidSuffix();
+        $offset = -(strlen($suffix));
+
+        if (substr($key, $offset) == $suffix && in_array(($uuidKey = substr($key, 0, $offset)), $uuidAttributes)) {
+            return $uuidKey;
+        }
+
+        return false;
+    }
+
+    public function getUuidAttributes()
+    {
+        $uuidAttributes = [];
+
+        if (property_exists($this, 'uuids') && is_array($this->uuids)) {
+            $uuidAttributes = array_merge($uuidAttributes, $this->uuids);
+        }
+
+        // non composite primary keys will return a string so casting required
+        $key = (array) $this->getKeyName();
+
+        $uuidAttributes = array_unique(array_merge($uuidAttributes, $key));
+
+        return $uuidAttributes;
     }
 
     public function getUuidTextAttribute(): ?string
     {
-        if (! $this->exists) {
+        $key = $this->getKeyName();
+
+        if (! $this->exists || is_array($key)) {
             return null;
         }
 
-        return static::decodeUuid($this->{$this->getKeyName()});
+        return static::decodeUuid($this->{$key});
     }
 
     public function setUuidTextAttribute(string $uuid)
     {
-        $this->{$this->getKeyName()} = static::encodeUuid($uuid);
+        $key = $this->getKeyName();
+
+        if (is_array($key)) {
+            return;
+        }
+
+        $this->{$key} = static::encodeUuid($uuid);
     }
 
     public function getQueueableId()
@@ -112,7 +187,9 @@ trait HasBinaryUuid
 
     public function getRouteKeyName()
     {
-        return 'uuid_text';
+        $suffix = $this->getUuidSuffix();
+
+        return "uuid{$suffix}";
     }
 
     public function getKeyName()

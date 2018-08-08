@@ -81,6 +81,38 @@ class HasBinaryUuidTest extends TestCase
     }
 
     /** @test */
+    public function it_decodes_columns_besides_primary_uuid_when_turned_to_an_array()
+    {
+        $uuid = Uuid::uuid1();
+        $relationUuid = Uuid::uuid1();
+
+        $model = $this->createModel($uuid, $relationUuid);
+
+        $modelArray = $model->toArray();
+
+        $this->assertNotNull($model);
+        $this->assertCount(4, $modelArray);
+        $this->assertTrue(array_key_exists('relation_uuid', $modelArray));
+        $this->assertEquals($modelArray['relation_uuid'], $model->relation_uuid_text);
+    }
+
+    /** @test */
+    public function it_should_use_custom_suffix_when_specified()
+    {
+        $uuid = Uuid::uuid1();
+
+        $model = $this->createModel($uuid);
+
+        $model->setUuidSuffix('_str');
+
+        $modelArray = $model->toArray();
+
+        $this->assertNotNull($model);
+        $this->assertTrue(array_key_exists('uuid', $modelArray));
+        $this->assertEquals($modelArray['uuid'], $model->uuid_str);
+    }
+
+    /** @test */
     public function it_can_query_multiple_relations_with_scope()
     {
         $relationUuid1 = Uuid::uuid1();
