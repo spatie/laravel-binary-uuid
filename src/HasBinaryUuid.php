@@ -19,6 +19,24 @@ trait HasBinaryUuid
         });
     }
 
+    public static function find($id, $columns = ['*'])
+    {
+        if (\is_array($id) || $id instanceof Arrayable) {
+            return static::findMany($id, $columns);
+        }
+
+        return static::withUuid($id)->first($columns);
+    }
+
+    public static function findMany($ids, $columns = ['*'])
+    {
+        if (empty($ids)) {
+            return static::newModelInstance()->newCollection();
+        }
+
+        return static::withUuid($ids)->get($columns);
+    }
+
     public static function scopeWithUuid(Builder $builder, $uuid, $field = null): Builder
     {
         if ($field) {
