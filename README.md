@@ -36,19 +36,21 @@ Schema::create('table_name', function (Blueprint $table) {
 });
 ```
 
-To get your model to work with the encoded UUID (i.e. to use uuid as a primary key), you must let your model use the `Spatie\BinaryUuid\HasBinaryUuid` trait.
+To get your model to work with the encoded UUID (i.e. to use uuid as a primary key), you must let your model use the `Spatie\BinaryUuid\HasBinaryUuid` and the `Spatie\BinaryUuid\HasUuidPrimaryKey` traits.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Spatie\BinaryUuid\HasBinaryUuid;
+use Spatie\BinaryUuid\HasUuidPrimaryKey;
 
 class TestModel extends Model
 {
-    use HasBinaryUuid;
+    use HasBinaryUuid,
+        HasUuidPrimaryKey;
 }
 ```
 
-If don't like the primary key named `uuid` you can manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
+If don't like the primary key named `uuid` you can leave off the `HasUuidPrimaryKey` trait and manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
