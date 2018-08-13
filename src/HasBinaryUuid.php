@@ -15,7 +15,7 @@ trait HasBinaryUuid
                 return;
             }
 
-            $model->{$model->getKeyName()} = static::generateUuid();
+            $model->{$model->getKeyName()} = static::encodeUuid(static::generateUuid());
         });
     }
 
