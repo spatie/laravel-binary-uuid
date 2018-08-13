@@ -223,10 +223,10 @@ class HasBinaryUuidTest extends TestCase
         $model2 = TestModel::create();
         $model3 = TestModel::create();
 
-        $this->assertCount(2, TestModel::find([$model1->uuid, $model3->uuid,] ));
-        $this->assertCount(2, TestModel::findMany([$model1->uuid, $model3->uuid,] ));
+        $this->assertCount(2, TestModel::find([$model1->uuid, $model3->uuid,]));
+        $this->assertCount(2, TestModel::findMany([$model1->uuid, $model3->uuid,]));
 
-        $this->assertCount(2, TestModel::find([$model1->uuid_text, $model3->uuid_text,] ));
-        $this->assertCount(2, TestModel::findMany([$model1->uuid_text, $model3->uuid_text,] ));
+        $this->assertCount(2, TestModel::find([$model1->uuid_text, $model3->uuid_text,]));
+        $this->assertCount(2, TestModel::findMany([$model1->uuid_text, $model3->uuid_text,]));
     }
 }
