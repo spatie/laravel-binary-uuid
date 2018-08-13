@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-binary-uuid` will be documented in this file
 
+## 1.2.0 - 2018-08-08
+
+- Configurable UUID attribute names (#49)
+
+## 1.1.7 - 2018-07-25
+
+- Extra isset check on present key when serializing a model (#47)
+
 ## 1.1.6 - 2018-03-01
 
 - Prevent decoding the uuid when the model does not exist (#40).
