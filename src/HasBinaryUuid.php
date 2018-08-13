@@ -49,7 +49,7 @@ trait HasBinaryUuid
         }, $uuid));
     }
 
-    public static function generateUuid(): string
+    public static function generateUuid() : string
     {
         return Uuid::uuid1();
     }
@@ -97,7 +97,7 @@ trait HasBinaryUuid
         return $array;
     }
 
-    public function getRelatedBinaryKeyName($attribute): string
+    public function getRelatedBinaryKeyName($attribute)
     {
         $suffix = $this->getUuidSuffix();
 
