@@ -36,21 +36,19 @@ Schema::create('table_name', function (Blueprint $table) {
 });
 ```
 
-To get your model to work with the encoded UUID (i.e. to use uuid as a primary key), you must let your model use the `Spatie\BinaryUuid\HasBinaryUuid` and the `Spatie\BinaryUuid\HasUuidPrimaryKey` traits.
+To get your model to work with the encoded UUID (i.e. to use uuid as a primary key), you must let your model use the `Spatie\BinaryUuid\HasBinaryUuid` trait.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Spatie\BinaryUuid\HasBinaryUuid;
-use Spatie\BinaryUuid\HasUuidPrimaryKey;
 
 class TestModel extends Model
 {
-    use HasBinaryUuid,
-        HasUuidPrimaryKey;
+    use HasBinaryUuid;
 }
 ```
 
-If don't like the primary key named `uuid` you can leave off the `HasUuidPrimaryKey` trait and manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
+If don't like the primary key named `uuid` you can manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -99,10 +97,10 @@ In your JSON you will see `uuid` and `country_uuid` in their textual representat
 
 #### A note on the `uuid` blueprint method
 
-Laravel currently doesn't allow adding new blueprint methods which can be used out of the box.
+Laravel currently does not allow adding new blueprint methods which can be used out of the box.
 Because of this, we decided to override the `uuid` behaviour which will create a `BINARY` column instead of a `CHAR(36)` column.
 
-There are some cases in which Laravel's generated code will also use `uuid`, but doesn't support our binary implementation.
+There are some cases in which Laravel's generated code will also use `uuid`, but does not support our binary implementation.
 An example are database notifications. 
 To make those work, you'll have to change the migration of those notifications to use `CHAR(36)`.
 
