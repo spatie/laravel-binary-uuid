@@ -97,7 +97,7 @@ trait HasBinaryUuid
         return $array;
     }
 
-    public function getRelatedBinaryKeyName($attribute)
+    public function getRelatedBinaryKeyName($attribute): string
     {
         $suffix = $this->getUuidSuffix();
 
