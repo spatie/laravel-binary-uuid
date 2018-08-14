@@ -15,7 +15,7 @@ trait HasBinaryUuid
                 return;
             }
 
-            $model->{$model->getKeyName()} = static::encodeUuid(Uuid::uuid1());
+            $model->{$model->getKeyName()} = static::encodeUuid(static::generateUuid());
         });
     }
 
@@ -47,6 +47,11 @@ trait HasBinaryUuid
         return $builder->whereIn($field, array_map(function (string $modelUuid) {
             return static::encodeUuid($modelUuid);
         }, $uuid));
+    }
+
+    public static function generateUuid() : string
+    {
+        return Uuid::uuid1();
     }
 
     public static function encodeUuid($uuid): string
