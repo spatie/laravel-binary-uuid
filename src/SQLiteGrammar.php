@@ -9,6 +9,6 @@ class SQLiteGrammar extends IlluminateSQLiteGrammar
 {
     protected function typeUuid(Fluent $column)
     {
-        return 'binary(16)';
+        return 'blob(256)';
     }
 }
