@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-binary-uuid` will be documented in this file
 
+## 1.2.1 - 2018-08-23
+
+- Fix broken SQLite grammar (#58)
+
 ## 1.2.0 - 2018-08-08
 
 - Configurable UUID attribute names (#49)
