@@ -48,7 +48,7 @@ class TestModel extends Model
 }
 ```
 
-If don't like the primary key named `uuid` you can manually specify `$primaryKey`. Don't forget set `$incrementing` to false.
+If don't like the primary key named `uuid` you can manually specify the `getKeyName` method. Don't forget set `$incrementing` to false.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -60,7 +60,10 @@ class TestModel extends Model
 
     public $incrementing = false;
     
-    public $primaryKey = 'uuid';
+    public function getKeyName()
+    {
+        return 'custom_uuid';
+    }
 }
 ```
 
