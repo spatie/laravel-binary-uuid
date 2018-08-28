@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-binary-uuid` will be documented in this file
 
+## 1.2.2 - 2018-08-28
+
+- add support for Laravel 5.7
+
 ## 1.2.1 - 2018-08-23
 
 - Fix broken SQLite grammar (#58)
