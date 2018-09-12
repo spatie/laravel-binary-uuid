@@ -185,9 +185,18 @@ trait HasBinaryUuid
         return base64_encode($this->{$this->getKeyName()});
     }
 
-    public function newQueryForRestoration($id)
+    public function newQueryForRestoration($ids)
     {
-        return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+        return is_array($ids)
+                ? $this->newQueryWithoutScopes()->whereIn($this->getQualifiedKeyName(), $this->decodeIdArray($ids))
+                : $this->newQueryWithoutScopes()->whereKey(base64_decode($ids));
+    }
+
+    private function decodeIdArray($ids) {
+        foreach($ids as $key => $id) {
+            $ids[$key] = base64_decode($id);
+        }
+        return $ids;
     }
 
     public function getRouteKeyName()
