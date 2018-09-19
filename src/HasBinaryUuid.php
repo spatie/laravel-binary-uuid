@@ -4,7 +4,6 @@ namespace Spatie\BinaryUuid;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 trait HasBinaryUuid
 {
@@ -17,24 +16,6 @@ trait HasBinaryUuid
 
             $model->{$model->getKeyName()} = static::encodeUuid(Uuid::uuid1());
         });
-    }
-
-    public static function find($id, $columns = ['*'])
-    {
-        if (\is_array($id) || $id instanceof Arrayable) {
-            return static::findMany($id, $columns);
-        }
-
-        return static::withUuid($id)->first($columns);
-    }
-
-    public static function findMany($ids, $columns = ['*'])
-    {
-        if (empty($ids)) {
-            return static::newModelInstance()->newCollection();
-        }
-
-        return static::withUuid($ids)->get($columns);
     }
 
     public static function scopeWithUuid(Builder $builder, $uuid, $field = null): Builder
@@ -201,6 +182,11 @@ trait HasBinaryUuid
     public function newQueryForRestoration($id)
     {
         return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+    }
+
+    public function newEloquentBuilder($query)
+    {
+        return new Builder($query);
     }
 
     public function getRouteKeyName()
