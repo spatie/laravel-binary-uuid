@@ -231,19 +231,19 @@ class HasBinaryUuidTest extends TestCase
         $model2 = TestModel::create();
         $model3 = TestModel::create();
 
-        $this->assertCount(2, TestModel::find([$model1->uuid, $model3->uuid,]));
-        $this->assertCount(2, TestModel::findMany([$model1->uuid, $model3->uuid,]));
+        $this->assertCount(2, TestModel::find([$model1->uuid, $model3->uuid]));
+        $this->assertCount(2, TestModel::findMany([$model1->uuid, $model3->uuid]));
 
-        $this->assertCount(2, TestModel::find([$model1->uuid_text, $model3->uuid_text,]));
-        $this->assertCount(2, TestModel::findMany([$model1->uuid_text, $model3->uuid_text,]));
+        $this->assertCount(2, TestModel::find([$model1->uuid_text, $model3->uuid_text]));
+        $this->assertCount(2, TestModel::findMany([$model1->uuid_text, $model3->uuid_text]));
     }
 
     /** @test */
     public function it_finds_or_fails_a_model_from_its_textual_uuid()
     {
-      $model = TestModel::create();
+        $model = TestModel::create();
 
-      $this->assertTrue($model->is(TestModel::findOrFail($model->uuid)));
-      $this->assertTrue($model->is(TestModel::findOrFail($model->uuid_text)));
+        $this->assertTrue($model->is(TestModel::findOrFail($model->uuid)));
+        $this->assertTrue($model->is(TestModel::findOrFail($model->uuid_text)));
     }
 }
