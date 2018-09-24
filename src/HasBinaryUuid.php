@@ -4,7 +4,6 @@ namespace Spatie\BinaryUuid;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 trait HasBinaryUuid
 {
@@ -188,6 +187,11 @@ trait HasBinaryUuid
     public function newQueryForRestoration($id)
     {
         return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+    }
+
+    public function newEloquentBuilder($query)
+    {
+        return new Builder($query);
     }
 
     public function getRouteKeyName()
