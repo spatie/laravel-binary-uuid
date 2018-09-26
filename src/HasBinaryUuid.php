@@ -217,6 +217,7 @@ trait HasBinaryUuid
     {
         // return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
         $ids = is_array($ids) ? $this->decodeIdArray($ids) : $ids;
+
         return parent::newQueryForRestoration($ids);
     }
 
@@ -247,8 +248,9 @@ trait HasBinaryUuid
         return $this->withUuid($value)->first();
     }
 
-    private function decodeIdArray($ids) {
-        foreach($ids as $key => $id) {
+    private function decodeIdArray($ids)
+    {
+        foreach ($ids as $key => $id) {
             $ids[$key] = base64_decode($id);
         }
 
