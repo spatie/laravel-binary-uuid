@@ -10,17 +10,16 @@ trait HasBinaryUuid
 {
     protected static function bootHasBinaryUuid()
     {
-        static::creating(function (Model $model)
-        {
+        static::creating(function (Model $model) {
             $keyName = (array) $model->getKeyName();
-            $uuidKeys = $model->getUuidKeys(); 
+            $uuidKeys = $model->getUuidKeys();
 
             foreach ($keyName as $key) {
-                 if (! in_array($key, $uuidKeys) || $model->{$key}) {
+                if (! in_array($key, $uuidKeys) || $model->{$key}) {
                     continue;
-                 }
+                }
 
-                 $model->{$key} = static::encodeUuid(static::generateUuid());
+                $model->{$key} = static::encodeUuid(static::generateUuid());
             }
         });
     }
@@ -113,7 +112,7 @@ trait HasBinaryUuid
 
         if (isset($array['pivot'])) {
             $pivotUuids = $array['pivot'];
-            
+
             if (! is_array($pivotUuids)) {
                 $pivotUuids = get_object_vars($pivotUuids);
             }
@@ -178,7 +177,7 @@ trait HasBinaryUuid
     public function getUuidAttributes()
     {
         $uuidKeys = $this->getUuidKeys();
-        
+
         // non composite primary keys will return a string so casting required
         $key = (array) $this->getKeyName();
 
@@ -203,7 +202,7 @@ trait HasBinaryUuid
         $key = $this->getKeyName();
 
         if (is_array($key)) {
-            throw new Exception("composite keys not allowed for attribute mutation");
+            throw new Exception('composite keys not allowed for attribute mutation');
         }
 
         $this->{$key} = static::encodeUuid($uuid);
