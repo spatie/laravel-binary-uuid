@@ -2,6 +2,7 @@
 
 namespace Spatie\BinaryUuid;
 
+use Exception;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,12 +10,18 @@ trait HasBinaryUuid
 {
     protected static function bootHasBinaryUuid()
     {
-        static::creating(function (Model $model) {
-            if ($model->{$model->getKeyName()}) {
-                return;
-            }
+        static::creating(function (Model $model)
+        {
+            $keyName = (array) $model->getKeyName();
+            $uuidKeys = $model->getUuidKeys(); 
 
-            $model->{$model->getKeyName()} = static::encodeUuid(static::generateUuid());
+            foreach ($keyName as $key) {
+                 if (! in_array($key, $uuidKeys) || $model->{$key}) {
+                    continue;
+                 }
+
+                 $model->{$key} = static::encodeUuid(static::generateUuid());
+            }
         });
     }
 
@@ -75,11 +82,22 @@ trait HasBinaryUuid
         return Uuid::fromBytes($binaryUuid)->toString();
     }
 
+    public function isBinary($uuidStr)
+    {
+        return preg_match('~[^\x20-\x7E\t\r\n]~', $uuidStr) > 0;
+    }
+
+    public function getUuidKeys()
+    {
+        return (property_exists($this, 'uuids') && is_array($this->uuids)) ? $this->uuids : [];
+    }
+
     public function toArray()
     {
         $uuidAttributes = $this->getUuidAttributes();
 
         $array = parent::toArray();
+        $pivotUuids = [];
 
         if (! $this->exists || ! is_array($uuidAttributes)) {
             return $array;
@@ -91,6 +109,22 @@ trait HasBinaryUuid
             }
             $uuidKey = $this->getRelatedBinaryKeyName($attributeKey);
             $array[$attributeKey] = $this->{$uuidKey};
+        }
+
+        if (isset($array['pivot'])) {
+            $pivotUuids = $array['pivot'];
+            
+            if (! is_array($pivotUuids)) {
+                $pivotUuids = get_object_vars($pivotUuids);
+            }
+
+            foreach ($pivotUuids as $key => $uuid) {
+                if ($this->isBinary($uuid)) {
+                    $pivotUuids[$key] = $this->decodeUuid($uuid);
+                }
+            }
+
+            $array['pivot'] = $pivotUuids;
         }
 
         return $array;
@@ -143,16 +177,12 @@ trait HasBinaryUuid
 
     public function getUuidAttributes()
     {
-        $uuidAttributes = [];
-
-        if (property_exists($this, 'uuids') && is_array($this->uuids)) {
-            $uuidAttributes = array_merge($uuidAttributes, $this->uuids);
-        }
-
+        $uuidKeys = $this->getUuidKeys();
+        
         // non composite primary keys will return a string so casting required
         $key = (array) $this->getKeyName();
 
-        $uuidAttributes = array_unique(array_merge($uuidAttributes, $key));
+        $uuidAttributes = array_unique(array_merge($uuidKeys, $key));
 
         return $uuidAttributes;
     }
@@ -173,7 +203,7 @@ trait HasBinaryUuid
         $key = $this->getKeyName();
 
         if (is_array($key)) {
-            return;
+            throw new Exception("composite keys not allowed for attribute mutation");
         }
 
         $this->{$key} = static::encodeUuid($uuid);
