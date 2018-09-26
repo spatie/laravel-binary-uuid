@@ -216,6 +216,24 @@ class HasBinaryUuidTest extends TestCase
     }
 
     /** @test */
+    public function restoration_query_supports_arrays()
+    {
+        $model1 = new TestModel;
+        $this->assertNull($model1->uuid);
+        $model1->save();
+        $this->assertNotNull($model1->uuid);
+        $model2 = new TestModel;
+        $this->assertNull($model2->uuid);
+        $model2->save();
+        $this->assertNotNull($model2->uuid);
+        $ids = [$model1->uuid, $model2->uuid];
+        $testModel = new TestModel;
+        $query = $testModel->newQueryForRestoration($ids);
+
+        $this->assertNotNull($query);
+    }
+
+    /** @test */
     public function it_finds_a_model_from_its_textual_uuid_too()
     {
         $model = TestModel::create();

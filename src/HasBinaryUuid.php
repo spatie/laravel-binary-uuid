@@ -213,9 +213,11 @@ trait HasBinaryUuid
         return base64_encode($this->{$this->getKeyName()});
     }
 
-    public function newQueryForRestoration($id)
+    public function newQueryForRestoration($ids)
     {
-        return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+        // return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+        $ids = is_array($ids) ? $this->decodeIdArray($ids) : $ids;
+        return parent::newQueryForRestoration($ids);
     }
 
     public function newEloquentBuilder($query)
@@ -243,5 +245,13 @@ trait HasBinaryUuid
     public function resolveRouteBinding($value)
     {
         return $this->withUuid($value)->first();
+    }
+
+    private function decodeIdArray($ids) {
+        foreach($ids as $key => $id) {
+            $ids[$key] = base64_decode($id);
+        }
+
+        return $ids;
     }
 }
