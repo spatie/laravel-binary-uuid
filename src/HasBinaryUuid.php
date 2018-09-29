@@ -201,7 +201,7 @@ trait HasBinaryUuid
     {
         $key = $this->getKeyName();
 
-        if (is_array($key)) {
+        if (! is_string($key)) {
             throw new Exception('composite keys not allowed for attribute mutation');
         }
 
@@ -213,12 +213,9 @@ trait HasBinaryUuid
         return base64_encode($this->{$this->getKeyName()});
     }
 
-    public function newQueryForRestoration($ids)
+    public function newQueryForRestoration($id)
     {
-        // return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
-        $ids = is_array($ids) ? $this->decodeIdArray($ids) : $ids;
-
-        return parent::newQueryForRestoration($ids);
+        return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
     }
 
     public function newEloquentBuilder($query)
