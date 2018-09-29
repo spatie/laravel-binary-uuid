@@ -13,8 +13,8 @@ trait HasBinaryUuid
         static::creating(function (Model $model) {
             $uuidAttributes = $model->getUuidAttributes();
 
-            foreach ($keyName as $key) {
-                if (! in_array($key, $uuidAttributes) || $model->{$key}) {
+            foreach ($uuidAttributes as $key) {
+                if ($model->{$key}) {
                     continue;
                 }
 
