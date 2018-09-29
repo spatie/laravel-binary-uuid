@@ -11,11 +11,10 @@ trait HasBinaryUuid
     protected static function bootHasBinaryUuid()
     {
         static::creating(function (Model $model) {
-            $keyName = (array) $model->getKeyName();
-            $uuidKeys = $model->getUuidKeys();
+            $uuidAttributes = $model->getUuidAttributes();
 
             foreach ($keyName as $key) {
-                if (! in_array($key, $uuidKeys) || $model->{$key}) {
+                if (! in_array($key, $uuidAttributes) || $model->{$key}) {
                     continue;
                 }
 
