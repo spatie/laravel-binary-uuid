@@ -193,8 +193,8 @@ class HasBinaryUuidTest extends TestCase
     public function it_generates_the_uuids_on_save_for_composite_keys()
     {
         $model = new TestModelComposite();
-        
-        $model->prop_val = "somevalue";
+
+        $model->prop_val = 'somevalue';
 
         $model->save();
 
