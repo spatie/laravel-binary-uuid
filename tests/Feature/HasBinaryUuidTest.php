@@ -5,6 +5,7 @@ namespace Spatie\BinaryUuid\Test\Feature;
 use Ramsey\Uuid\Uuid;
 use Spatie\BinaryUuid\Test\TestCase;
 use Spatie\BinaryUuid\Test\TestModel;
+use Spatie\BinaryUuid\Test\TestModelComposite;
 
 class HasBinaryUuidTest extends TestCase
 {
@@ -186,6 +187,19 @@ class HasBinaryUuidTest extends TestCase
 
         $this->assertContains($model->uuid_text, $json);
         $this->assertNotContains($model->uuid, $json);
+    }
+
+    /** @test */
+    public function it_generates_the_uuids_on_save_for_composite_keys()
+    {
+        $model = new TestModelComposite();
+        
+        $model->prop_val = "somevalue";
+
+        $model->save();
+
+        $this->assertTrue(property_exists($model, 'first_id'));
+        $this->assertTrue(property_exists($model, 'second_id'));
     }
 
     /** @test */

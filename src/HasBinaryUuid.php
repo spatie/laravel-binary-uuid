@@ -231,7 +231,7 @@ trait HasBinaryUuid
 
     public function getKeyName()
     {
-        return 'uuid';
+        return (property_exists($this, 'primaryKey') && $this->primaryKey === 'id') ? 'uuid' : $this->primaryKey;
     }
 
     public function getIncrementing()
