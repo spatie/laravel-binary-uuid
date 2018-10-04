@@ -80,11 +80,6 @@ trait HasBinaryUuid
         return Uuid::fromBytes($binaryUuid)->toString();
     }
 
-    public function isBinary($uuidStr)
-    {
-        return preg_match('~[^\x20-\x7E\t\r\n]~', $uuidStr) > 0;
-    }
-
     public function getUuidKeys()
     {
         return (property_exists($this, 'uuids') && is_array($this->uuids)) ? $this->uuids : [];
@@ -117,9 +112,7 @@ trait HasBinaryUuid
             }
 
             foreach ($pivotUuids as $key => $uuid) {
-                if ($this->isBinary($uuid)) {
                     $pivotUuids[$key] = $this->decodeUuid($uuid);
-                }
             }
 
             $array['pivot'] = $pivotUuids;
@@ -224,11 +217,11 @@ trait HasBinaryUuid
 
     public function getRouteKeyName()
     {
-        $key = $this->primaryKey;
+        $keyName = $this->getKeyName();
 
-        $keyName = is_string($key) ? $this->strUuidSuffix($key) : array_map([&$this, 'strUuidSuffix'], $key);
+        $routeKeyName = is_string($keyName) ? $this->strUuidSuffix($keyName) : array_map([&$this, 'strUuidSuffix'], $keyName);
 
-        return $keyName;
+        return $routeKeyName;
     }
 
     public function getKeyName()
@@ -243,7 +236,7 @@ trait HasBinaryUuid
 
     public function resolveRouteBinding($value)
     {
-        $keyName = $this->getRouteKeyName();
+        $keyName = $this->getKeyName();
 
         if (is_array($keyName)) {
             $parsed = explode(':', strval($value), count($keyName));
@@ -259,14 +252,5 @@ trait HasBinaryUuid
         $suffix = $this->getUuidSuffix();
 
         return "{$str}{$suffix}";
-    }
-
-    private function decodeIdArray($ids)
-    {
-        foreach ($ids as $key => $id) {
-            $ids[$key] = base64_decode($id);
-        }
-
-        return $ids;
     }
 }
