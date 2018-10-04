@@ -207,7 +207,10 @@ trait HasBinaryUuid
 
     public function newQueryForRestoration($id)
     {
-        return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+        //return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+        return is_array($id)
+                ? $this->newQueryWithoutScopes()->whereIn($this->getQualifiedKeyName(), $this->decodeIdArray($id))
+                : $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
     }
 
     public function newEloquentBuilder($query)
@@ -252,5 +255,14 @@ trait HasBinaryUuid
         $suffix = $this->getUuidSuffix();
 
         return "{$str}{$suffix}";
+    }
+
+    private function decodeIdArray($ids)
+    {
+        foreach ($ids as $key => $id) {
+            $ids[$key] = base64_decode($id);
+        }
+
+        return $ids;
     }
 }
