@@ -215,9 +215,6 @@ trait HasBinaryUuid
     public function newQueryForRestoration($id)
     {
         return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
-        /*return is_array($id)
-                ? $this->newQueryWithoutScopes()->whereIn($this->getQualifiedKeyName(), $this->decodeIdArray($id))
-                : $this->newQueryWithoutScopes()->whereKey(base64_decode($id));*/
     }
 
     public function newEloquentBuilder($query)
