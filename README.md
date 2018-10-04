@@ -26,7 +26,7 @@ composer require spatie/laravel-binary-uuid
 
 ## Usage
  
-To let a model make use of optimised UUIDs, you must add a `uuid` field as the primary field in the table.
+To let a model make use of optimized UUIDs, you must add a `uuid` field as the primary field in the table.
 
 ```php
 Schema::create('table_name', function (Blueprint $table) {
