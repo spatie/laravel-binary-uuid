@@ -148,8 +148,8 @@ trait HasBinaryUuid
 
     public function setAttribute($key, $value)
     {
-        if (($uuidKey = $this->uuidTextAttribute($key)) !== false) {
-            $value = static::encodeUuid($uuidKey);
+        if ($this->uuidTextAttribute($key)) {
+            $value = static::encodeUuid($key);
         }
 
         return parent::setAttribute($key, $value);
