@@ -229,11 +229,6 @@ trait HasBinaryUuid
         return (! property_exists($this, 'primaryKey') || $this->primaryKey === 'id') ? 'uuid' : $this->primaryKey;
     }
 
-    public function getQualifiedKeyName()
-    {
-        return $this->qualifyColumn($this->getKeyName());
-    }
-
     public function getIncrementing()
     {
         return false;
