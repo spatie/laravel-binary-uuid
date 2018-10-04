@@ -200,8 +200,8 @@ class HasBinaryUuidTest extends TestCase
 
         $model->save();
 
-        $this->assertTrue(property_exists($model, 'first_id'));
-        $this->assertTrue(property_exists($model, 'second_id'));
+        $this->assertTrue(Uuid::isValid($model->first_id));
+        $this->assertTrue(Uuid::isValid($model->second_id));
     }
 
     /** @test */
