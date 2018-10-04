@@ -194,6 +194,8 @@ class HasBinaryUuidTest extends TestCase
     {
         $model = new TestModelComposite();
 
+        //$this->assertNull($model->first_id);
+
         $model->prop_val = 'somevalue';
 
         $model->save();
