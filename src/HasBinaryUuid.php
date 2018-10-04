@@ -231,19 +231,6 @@ trait HasBinaryUuid
         return $keyName;
     }
 
-    public function resolveRouteBinding($value)
-    {
-        $keyName = $this->getRouteKeyName();
-
-        if (is_array($keyName)) {
-            $value = explode(':', strval($value), count($keyName));
-
-            return $this->where(array_combine($keyName, $value))->frist();
-        }
-
-        return $this->where($keyName, $value)->first();
-    }
-
     public function getKeyName()
     {
         return (! property_exists($this, 'primaryKey') || $this->primaryKey === 'id') ? 'uuid' : $this->primaryKey;
@@ -256,6 +243,14 @@ trait HasBinaryUuid
 
     public function resolveRouteBinding($value)
     {
+        $keyName = $this->getRouteKeyName();
+
+        if (is_array($keyName)) {
+            $parsed = explode(':', strval($value), count($keyName));
+
+            $value = array_combine($keyName, $parsed);
+        }
+
         return $this->withUuid($value)->first();
     }
 
