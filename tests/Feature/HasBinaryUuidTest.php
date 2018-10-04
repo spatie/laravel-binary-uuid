@@ -262,11 +262,11 @@ class HasBinaryUuidTest extends TestCase
 
         $models = $query->get();
 
-        /*$this->assertTrue($models->contains(function($model) use($model1){
-            $model->uuid === $model1->uuid;
+        /*$this->assertTrue($models->contains(function ($model, $key) use ($model1) {
+            return $model->uuid_text === $model1->uuid_text;
         }));*/
-        $this->assertTrue($models->contains(function($model) use($model2){
-            $model->uuid_text === $model2->uuid_text;
+        $this->assertTrue($models->contains(function ($model, $key) use ($model2) {
+            return $model->uuid_text === $model2->uuid_text;
         }));
     }
 
