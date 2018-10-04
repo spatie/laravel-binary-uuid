@@ -226,7 +226,7 @@ trait HasBinaryUuid
     {
         $key = $this->primaryKey;
 
-        $keyName = is_string($key) ? $this->strUuidSuffix($key) : array_map(array(&$this, 'strUuidSuffix'), $key);
+        $keyName = is_string($key) ? $this->strUuidSuffix($key) : array_map([&$this, 'strUuidSuffix'], $key);
 
         return $keyName;
     }
@@ -237,6 +237,7 @@ trait HasBinaryUuid
 
         if (is_array($keyName)) {
             $value = explode(':', strval($value), count($keyName));
+
             return $this->where(array_combine($keyName, $value))->frist();
         }
 
