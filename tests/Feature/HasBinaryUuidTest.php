@@ -255,8 +255,7 @@ class HasBinaryUuidTest extends TestCase
 
         $ids = [$model1->uuid, $model2->uuid];
 
-        $testModel = new TestModel;
-        $query = $testModel->newQueryForRestoration($ids);
+        $query = $model2->newQueryForRestoration($ids);
 
         $this->assertNotNull($query);
 
