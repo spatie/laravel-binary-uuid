@@ -14,7 +14,7 @@ class TestModelComposite extends Model
     ];
 
     protected $primaryKey = [
-        'first_id', 
+        'first_id',
         'second_id',
     ];
 
