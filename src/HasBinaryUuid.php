@@ -132,7 +132,7 @@ trait HasBinaryUuid
     {
         $suffix = $this->getUuidSuffix();
 
-        return preg_match('/(?:uu)?id/i', $attribute) ? "{$attribute}{$suffix}" : $attribute;
+        return preg_match('/(?:[a-zA-Z_]+)?id/i', $attribute) ? "{$attribute}{$suffix}" : $attribute;
     }
 
     public function getAttribute($key)
@@ -215,6 +215,9 @@ trait HasBinaryUuid
     public function newQueryForRestoration($id)
     {
         return $this->newQueryWithoutScopes()->whereKey(base64_decode($id));
+        /*return is_array($id)
+                ? $this->newQueryWithoutScopes()->whereIn($this->getQualifiedKeyName(), $this->decodeIdArray($id))
+                : $this->newQueryWithoutScopes()->whereKey(base64_decode($id));*/
     }
 
     public function newEloquentBuilder($query)
@@ -224,9 +227,23 @@ trait HasBinaryUuid
 
     public function getRouteKeyName()
     {
-        $suffix = $this->getUuidSuffix();
+        $key = $this->primaryKey;
 
-        return "uuid{$suffix}";
+        $keyName = is_string($key) ? $this->strUuidSuffix($key) : array_map(array(&$this, 'strUuidSuffix'), $key);
+
+        return $keyName;
+    }
+
+    public function resolveRouteBinding($value)
+    {
+        $keyName = $this->getRouteKeyName();
+
+        if (is_array($keyName)) {
+            $value = explode(':', strval($value), count($keyName));
+            return $this->where(array_combine($keyName, $value))->frist();
+        }
+
+        return $this->where($keyName, $value)->first();
     }
 
     public function getKeyName()
@@ -242,6 +259,13 @@ trait HasBinaryUuid
     public function resolveRouteBinding($value)
     {
         return $this->withUuid($value)->first();
+    }
+
+    public function strUuidSuffix($str)
+    {
+        $suffix = $this->getUuidSuffix();
+
+        return "{$str}{$suffix}";
     }
 
     private function decodeIdArray($ids)

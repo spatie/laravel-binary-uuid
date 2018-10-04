@@ -206,7 +206,7 @@ class HasBinaryUuidTest extends TestCase
     }
 
     /** @test */
-    /*public function it_decodes_the_uuids_when_attributes_are_retrieved_for_composite_keys()
+    public function it_decodes_the_uuids_when_attributes_are_retrieved_for_composite_keys()
     {
         $model = new TestModelComposite();
 
@@ -218,7 +218,7 @@ class HasBinaryUuidTest extends TestCase
 
         $this->assertTrue(Uuid::isValid($model->first_id_str));
         $this->assertTrue(Uuid::isValid($model->second_id_str));
-    }*/
+    }
 
     /** @test */
     public function it_prevents_decoding_the_uuid_when_the_model_does_not_exist()
