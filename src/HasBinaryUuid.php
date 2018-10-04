@@ -149,7 +149,7 @@ trait HasBinaryUuid
     public function setAttribute($key, $value)
     {
         if ($this->uuidTextAttribute($key)) {
-            $value = static::encodeUuid($key);
+            $value = static::encodeUuid($value);
         }
 
         return parent::setAttribute($key, $value);
@@ -231,7 +231,7 @@ trait HasBinaryUuid
 
     public function getKeyName()
     {
-        return (property_exists($this, 'primaryKey') && $this->primaryKey === 'id') ? 'uuid' : $this->primaryKey;
+        return (! property_exists($this, 'primaryKey') || $this->primaryKey === 'id') ? 'uuid' : $this->primaryKey;
     }
 
     public function getIncrementing()
