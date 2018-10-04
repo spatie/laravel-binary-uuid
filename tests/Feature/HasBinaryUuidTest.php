@@ -194,14 +194,30 @@ class HasBinaryUuidTest extends TestCase
     {
         $model = new TestModelComposite();
 
-        //$this->assertNull($model->first_id);
+        $this->assertNull($model->first_id);
+        $this->assertNull($model->second_id);
 
         $model->prop_val = 'somevalue';
 
         $model->save();
 
-        $this->assertTrue(Uuid::isValid($model->first_id));
-        $this->assertTrue(Uuid::isValid($model->second_id));
+        $this->assertNotNull($model->first_id);
+        $this->assertNotNull($model->second_id);
+    }
+
+    /** @test */
+    public function it_decodes_the_uuids_when_attributes_are_retrieved_for_composite_keys()
+    {
+        $model = new TestModelComposite();
+
+        $model->prop_val = 'anothervalue';
+
+        $model->save();
+
+        $model->setUuidSuffix('_str');
+
+        $this->assertTrue(Uuid::isValid($model->first_id_str));
+        $this->assertTrue(Uuid::isValid($model->second_id_str));
     }
 
     /** @test */
