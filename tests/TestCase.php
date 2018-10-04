@@ -43,5 +43,17 @@ class TestCase extends Orchestra
 
             $table->timestamps();
         });
+
+        Schema::dropIfExists('test_composite');
+
+        Schema::create('test_composite', function (Blueprint $table) {
+            $table->uuid('first_id');
+            $table->uuid('second_id');
+            $table->uuid('another_uuid')->nullable();
+            $table->string('prop_val', 50);
+
+            $table->primary(['first_id', 'second_id']);
+            $table->timestamps();
+        });
     }
 }

@@ -5,6 +5,7 @@ namespace Spatie\BinaryUuid\Test\Feature;
 use Ramsey\Uuid\Uuid;
 use Spatie\BinaryUuid\Test\TestCase;
 use Spatie\BinaryUuid\Test\TestModel;
+use Spatie\BinaryUuid\Test\TestModelComposite;
 
 class HasBinaryUuidTest extends TestCase
 {
@@ -189,6 +190,37 @@ class HasBinaryUuidTest extends TestCase
     }
 
     /** @test */
+    public function it_generates_the_uuids_on_save_for_composite_keys()
+    {
+        $model = new TestModelComposite();
+
+        $this->assertNull($model->first_id);
+        $this->assertNull($model->second_id);
+
+        $model->prop_val = 'somevalue';
+
+        $model->save();
+
+        $this->assertNotNull($model->first_id);
+        $this->assertNotNull($model->second_id);
+    }
+
+    /** @test */
+    public function it_decodes_the_uuids_when_attributes_are_retrieved_for_composite_keys()
+    {
+        $model = new TestModelComposite();
+
+        $model->prop_val = 'anothervalue';
+
+        $model->save();
+
+        $model->setUuidSuffix('_str');
+
+        $this->assertTrue(Uuid::isValid($model->first_id_str));
+        $this->assertTrue(Uuid::isValid($model->second_id_str));
+    }
+
+    /** @test */
     public function it_prevents_decoding_the_uuid_when_the_model_does_not_exist()
     {
         $model = new TestModel;
@@ -213,6 +245,28 @@ class HasBinaryUuidTest extends TestCase
         $array = $model->toArray();
 
         $this->assertFalse(isset($array[$model->getKeyName()]));
+    }
+
+    /** @test */
+    public function restoration_query_supports_arrays_and_returns_models()
+    {
+        $model1 = TestModel::create();
+        $model2 = TestModel::create();
+
+        $ids = [$model1->uuid, $model2->uuid];
+
+        $query = $model2->newQueryForRestoration($ids);
+
+        $this->assertNotNull($query);
+
+        $models = $query->get();
+
+        /*$this->assertTrue($models->contains(function ($model, $key) use ($model1) {
+            return $model->uuid_text === $model1->uuid_text;
+        }));*/
+        $this->assertTrue($models->contains(function ($model, $key) use ($model2) {
+            return $model->uuid_text === $model2->uuid_text;
+        }));
     }
 
     /** @test */
