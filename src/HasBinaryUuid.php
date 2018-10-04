@@ -112,7 +112,7 @@ trait HasBinaryUuid
             }
 
             foreach ($pivotUuids as $key => $uuid) {
-                    $pivotUuids[$key] = $this->decodeUuid($uuid);
+                $pivotUuids[$key] = $this->decodeUuid($uuid);
             }
 
             $array['pivot'] = $pivotUuids;
@@ -227,6 +227,11 @@ trait HasBinaryUuid
     public function getKeyName()
     {
         return (! property_exists($this, 'primaryKey') || $this->primaryKey === 'id') ? 'uuid' : $this->primaryKey;
+    }
+
+    public function getQualifiedKeyName()
+    {
+        return $this->qualifyColumn($this->getKeyName());
     }
 
     public function getIncrementing()
