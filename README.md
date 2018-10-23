@@ -98,7 +98,7 @@ class TestModel extends Model
 
 In your JSON you will see `uuid` and `country_uuid` in their textual representation. If you're also making use of composite primary keys, the above works well enough too. Just include your keys in the `$uuids` array or override the `getKeyName()` method on your model and return your composite primary keys as an array of keys. You can also customize the UUID text attribute suffix name. In the code above, instead of '\_text' it's '\_str'.
 
-The `$uuids` array in your model defines fields that will be converted to uuid strings when retrieved and converted to binary when written to the database. You do not need to define these fields in the model `$casts` array in your model.
+The `$uuids` array in your model defines fields that will be converted to uuid strings when retrieved and converted to binary when written to the database. You do not need to define these fields in the `$casts` array in your model.
 
 #### A note on the `uuid` blueprint method
 
