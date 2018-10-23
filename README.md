@@ -98,6 +98,8 @@ class TestModel extends Model
 
 In your JSON you will see `uuid` and `country_uuid` in their textual representation. If you're also making use of composite primary keys, the above works well enough too. Just include your keys in the `$uuids` array or override the `getKeyName()` method on your model and return your composite primary keys as an array of keys. You can also customize the UUID text attribute suffix name. In the code above, instead of '\_text' it's '\_str'.
 
+The `$uuids` array in your model defines fields that will be converted to uuid strings when retrieved and converted to binary when written to the database. You do not need to define these fields in the model `$casts` array in your model.
+
 #### A note on the `uuid` blueprint method
 
 Laravel currently does not allow adding new blueprint methods which can be used out of the box.
@@ -170,6 +172,27 @@ $models = MyModel::withUuid([
     'ff8683ab-cadd-11e7-9547-8c85900eed2t',
 ])->get();
 ```
+
+Note: Version 1.3.0 added simplified syntax for finding data using a uuid string.
+
+```php
+$uuid = 'ff8683dc-cadd-11e7-9547-8c85901eed2e'; // UUID from eg. the URL.
+
+$model = MyModel::find($uuid);  
+
+$model = MyModel::findOrFail($uuid);
+```
+
+Version 1.3.0 query for multiple UUIDs.
+
+```php
+$uuids = [
+    'ff8683dc-cadd-11e7-9547-8c85901eed2e',
+    'ff8683ab-cadd-11e7-9547-8c85900eed2t',
+];
+
+$model = MyModel::findMany($uuids);
+``` 
 
 #### Querying relations
 
