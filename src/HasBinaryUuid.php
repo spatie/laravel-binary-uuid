@@ -5,8 +5,8 @@ namespace Spatie\BinaryUuid;
 use App;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Codec\OrderedTimeCodec;
 
 trait HasBinaryUuid
 {
