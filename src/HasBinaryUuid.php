@@ -4,6 +4,7 @@ namespace Spatie\BinaryUuid;
 
 use App;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,8 +27,8 @@ trait HasBinaryUuid
             return static::scopeWithUuidRelation($builder, $uuid, $field);
         }
 
-        if ($uuid instanceof Uuid) {
-            $uuid = (string) $uuid;
+        if ($uuid instanceof UuidInterface) {
+            $uuid = $uuid->toString();
         }
 
         $uuid = (array) $uuid;
@@ -39,8 +40,8 @@ trait HasBinaryUuid
 
     public static function scopeWithUuidRelation(Builder $builder, $uuid, string $field): Builder
     {
-        if ($uuid instanceof Uuid) {
-            $uuid = (string) $uuid;
+        if ($uuid instanceof UuidInterface) {
+            $uuid = $uuid->toString();
         }
 
         $uuid = (array) $uuid;
@@ -61,7 +62,7 @@ trait HasBinaryUuid
             return $uuid;
         }
 
-        if (! $uuid instanceof Uuid) {
+        if (! $uuid instanceof UuidInterface) {
             $uuid = Uuid::fromString($uuid);
         }
 
