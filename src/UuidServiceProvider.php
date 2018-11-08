@@ -21,7 +21,9 @@ class UuidServiceProvider extends ServiceProvider
 
         $connection->setSchemaGrammar($this->createGrammarFromConnection($connection));
 
-        $this->optimizeUuids();
+        $this->app->singleton(OrderedTimeCodec::class, function () {
+            return new OrderedTimeCodec((new UuidFactory)->getUuidBuilder());
+        });
     }
 
     protected function createGrammarFromConnection(Connection $connection): Grammar
@@ -46,16 +48,5 @@ class UuidServiceProvider extends ServiceProvider
         $grammar->setTablePrefix($queryGrammar->getTablePrefix());
 
         return $grammar;
-    }
-
-    protected function optimizeUuids()
-    {
-        $factory = new UuidFactory();
-
-        $codec = new OrderedTimeCodec($factory->getUuidBuilder());
-
-        $factory->setCodec($codec);
-
-        Uuid::setFactory($factory);
     }
 }

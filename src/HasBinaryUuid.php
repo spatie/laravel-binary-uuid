@@ -2,7 +2,9 @@
 
 namespace Spatie\BinaryUuid;
 
+use App;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Codec\OrderedTimeCodec;
 use Illuminate\Database\Eloquent\Model;
 
 trait HasBinaryUuid
@@ -63,7 +65,10 @@ trait HasBinaryUuid
             $uuid = Uuid::fromString($uuid);
         }
 
-        return $uuid->getBytes();
+        /** @var OrderedTimeCodec $codec */
+        $codec = App::make(OrderedTimeCodec::class);
+
+        return $codec->encodeBinary($uuid);
     }
 
     public static function decodeUuid(string $binaryUuid): string
@@ -72,7 +77,10 @@ trait HasBinaryUuid
             return $binaryUuid;
         }
 
-        return Uuid::fromBytes($binaryUuid)->toString();
+        /** @var OrderedTimeCodec $codec */
+        $codec = App::make(OrderedTimeCodec::class);
+
+        return $codec->decodeBytes($binaryUuid)->toString();
     }
 
     public function toArray()
