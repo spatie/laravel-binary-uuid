@@ -1,3 +1,5 @@
+**[Looking for maintainers/abandonment notice](https://github.com/spatie/laravel-binary-uuid/issues/91)**
+
 # Using optimised binary UUIDs in Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-binary-uuid.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-binary-uuid)
