@@ -1,4 +1,6 @@
-**[Looking for maintainers/abandonment notice](https://github.com/spatie/laravel-binary-uuid/issues/91)**
+**THIS PACKAGE IS NOT MAINTAINED ANYMORE**
+
+Alternatives: https://github.com/michaeldyrynda/laravel-efficient-uuid & https://github.com/michaeldyrynda/laravel-model-uuid
 
 # Using optimised binary UUIDs in Laravel
 
